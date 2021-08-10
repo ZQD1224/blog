@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>一文搞懂 koa2 核心原理 | duangdong的blog</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,js,vuepress,leetcode,react,react进阶,css,js进阶,react性能优化,js设计模式">
+    
+    <link rel="preload" href="/assets/css/0.styles.7d57e154.css" as="style"><link rel="preload" href="/assets/js/app.4e7306f2.js" as="script"><link rel="preload" href="/assets/js/2.089a9349.js" as="script"><link rel="preload" href="/assets/js/42.7f205067.js" as="script"><link rel="prefetch" href="/assets/js/10.e4129a75.js"><link rel="prefetch" href="/assets/js/11.2979228c.js"><link rel="prefetch" href="/assets/js/12.967032b4.js"><link rel="prefetch" href="/assets/js/13.382c0126.js"><link rel="prefetch" href="/assets/js/14.4462e192.js"><link rel="prefetch" href="/assets/js/15.1a2ad78e.js"><link rel="prefetch" href="/assets/js/16.d8aabfc4.js"><link rel="prefetch" href="/assets/js/17.b1b14ced.js"><link rel="prefetch" href="/assets/js/18.6381bd07.js"><link rel="prefetch" href="/assets/js/19.e1d88862.js"><link rel="prefetch" href="/assets/js/20.9fc12d0b.js"><link rel="prefetch" href="/assets/js/21.32087fe8.js"><link rel="prefetch" href="/assets/js/22.569c0b70.js"><link rel="prefetch" href="/assets/js/23.904cd88f.js"><link rel="prefetch" href="/assets/js/24.2b2f4bb6.js"><link rel="prefetch" href="/assets/js/25.73f4e989.js"><link rel="prefetch" href="/assets/js/26.9f800f35.js"><link rel="prefetch" href="/assets/js/27.d4639879.js"><link rel="prefetch" href="/assets/js/28.0f698c22.js"><link rel="prefetch" href="/assets/js/29.baec863c.js"><link rel="prefetch" href="/assets/js/3.56aa1c74.js"><link rel="prefetch" href="/assets/js/30.9169b2e7.js"><link rel="prefetch" href="/assets/js/31.8f3b396f.js"><link rel="prefetch" href="/assets/js/32.fa69df06.js"><link rel="prefetch" href="/assets/js/33.37897fde.js"><link rel="prefetch" href="/assets/js/34.e4c930ca.js"><link rel="prefetch" href="/assets/js/35.ac93870f.js"><link rel="prefetch" href="/assets/js/36.2673cc72.js"><link rel="prefetch" href="/assets/js/37.60009020.js"><link rel="prefetch" href="/assets/js/38.79171963.js"><link rel="prefetch" href="/assets/js/39.6938b87f.js"><link rel="prefetch" href="/assets/js/4.ef07e727.js"><link rel="prefetch" href="/assets/js/40.8e6ace96.js"><link rel="prefetch" href="/assets/js/41.7deb9d44.js"><link rel="prefetch" href="/assets/js/43.8ebc2622.js"><link rel="prefetch" href="/assets/js/44.499d3895.js"><link rel="prefetch" href="/assets/js/45.137c225a.js"><link rel="prefetch" href="/assets/js/46.999fc668.js"><link rel="prefetch" href="/assets/js/47.b2a407fe.js"><link rel="prefetch" href="/assets/js/48.f7742dc5.js"><link rel="prefetch" href="/assets/js/49.01a0c908.js"><link rel="prefetch" href="/assets/js/5.852455a1.js"><link rel="prefetch" href="/assets/js/50.a6966cb3.js"><link rel="prefetch" href="/assets/js/51.3db01d61.js"><link rel="prefetch" href="/assets/js/52.5f0256d1.js"><link rel="prefetch" href="/assets/js/53.03ae4d1b.js"><link rel="prefetch" href="/assets/js/54.58f05fcf.js"><link rel="prefetch" href="/assets/js/55.cd5aeb9f.js"><link rel="prefetch" href="/assets/js/56.3cf754d6.js"><link rel="prefetch" href="/assets/js/6.c9125bc1.js"><link rel="prefetch" href="/assets/js/7.6efc051b.js"><link rel="prefetch" href="/assets/js/8.af4d5805.js"><link rel="prefetch" href="/assets/js/9.6a8418f6.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.7d57e154.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/leetcode/" class="nav-link">
+  Leetcode
+</a></div><div class="nav-item"><a href="/algorithm/" class="nav-link">
+  数据结构
+</a></div><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/node/" class="nav-link router-link-active">
+  Node
+</a></div><div class="nav-item"><a href="https://react.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://qa.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  QA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人链接" class="dropdown-title"><span class="title">个人链接</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人链接" class="mobile-dropdown-title"><span class="title">个人链接</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://essay.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  随笔
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="http://qdzhou.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  博客
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://www.yuque.com/xdxmvy" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  语雀
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/ZQD1224/note" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/leetcode/" class="nav-link">
+  Leetcode
+</a></div><div class="nav-item"><a href="/algorithm/" class="nav-link">
+  数据结构
+</a></div><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/node/" class="nav-link router-link-active">
+  Node
+</a></div><div class="nav-item"><a href="https://react.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://qa.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  QA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人链接" class="dropdown-title"><span class="title">个人链接</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人链接" class="mobile-dropdown-title"><span class="title">个人链接</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://essay.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  随笔
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="http://qdzhou.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  博客
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://www.yuque.com/xdxmvy" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  语雀
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/ZQD1224/note" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/node/" aria-current="page" class="sidebar-link">node</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>1-koa</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/node/1-koa/koa-mongo.html" class="sidebar-link">Koa结合MongoDB使用</a></li><li><a href="/node/1-koa/koa-mysql.html" class="sidebar-link">koa2中对mysql简单封装实现增删改查的基本操作</a></li><li><a href="/node/1-koa/koa-swagger.html" class="sidebar-link">Koa结合swagger-ui使用</a></li><li><a href="/node/1-koa/koa-webpack.html" class="sidebar-link">在koa2中使用webpack进行项目打包</a></li><li><a href="/node/1-koa/koa2.html" class="sidebar-link">Koa2</a></li><li><a href="/node/1-koa/koa实践总结.html" class="sidebar-link">Koa实践总结</a></li><li><a href="/node/1-koa/搞懂koa2原理.html" class="active sidebar-link">一文搞懂 koa2 核心原理</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/node/1-koa/搞懂koa2原理.html#一文搞懂-koa2-核心原理" class="sidebar-link">一文搞懂 koa2 核心原理</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/搞懂koa2原理.html#koa的基础结构" class="sidebar-link">koa的基础结构</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/搞懂koa2原理.html#koa源码基础骨架" class="sidebar-link">koa源码基础骨架</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/node/1-koa/搞懂koa2原理.html#koa工作流" class="sidebar-link">koa工作流</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/搞懂koa2原理.html#koa中间件机制与实现" class="sidebar-link">koa中间件机制与实现</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/搞懂koa2原理.html#koa-convert解析" class="sidebar-link">koa-convert解析</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/搞懂koa2原理.html#异步函数的统一错误处理机制" class="sidebar-link">异步函数的统一错误处理机制</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/搞懂koa2原理.html#委托模式在koa中的应用" class="sidebar-link">委托模式在koa中的应用</a></li></ul></li></ul></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>2-nginx</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>3-puppeteer</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Bug</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/node/Node 进程管理模块 PM2 的核心知识点.html" class="sidebar-link">10分钟快速过一遍 Node 进程管理模块 PM2 的核心知识点</a></li><li><a href="/node/babel-nodemon.html" class="sidebar-link">babel nodemon</a></li><li><a href="/node/jsencrypt.html" class="sidebar-link">链接</a></li><li><a href="/node/jsonwebtoken.html" class="sidebar-link">jsonwebtoken</a></li><li><a href="/node/nvm.html" class="sidebar-link">Nvm</a></li><li><a href="/node/other.html" class="sidebar-link">babel</a></li><li><a href="/node/passport.html" class="sidebar-link">passport</a></li><li><a href="/node/pm2.html" class="sidebar-link">pm2</a></li><li><a href="/node/浅析 Node 进程与线程.html" class="sidebar-link">浅析 Node 进程与线程</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="一文搞懂-koa2-核心原理"><a href="#一文搞懂-koa2-核心原理" class="header-anchor">#</a> 一文搞懂 koa2 核心原理</h2> <blockquote><p><a href="https://mp.weixin.qq.com/s/dC2MlBK-fCLnr1DDnAjgUQ" target="_blank" rel="noopener noreferrer">https://mp.weixin.qq.com/s/dC2MlBK-fCLnr1DDnAjgUQ<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h2 id="koa的基础结构"><a href="#koa的基础结构" class="header-anchor">#</a> koa的基础结构</h2> <p>首先，让我们认识一下koa框架的定位——koa是一个精简的node框架：</p> <ul><li>它基于node原生req和res，封装自定义的request和response对象，并基于它们封装成一个统一的context对象。</li> <li>它基于async/await（generator）的洋葱模型实现了中间件机制。</li></ul> <p>koa框架的核心目录如下：</p> <div class="language- extra-class"><pre class="language-text"><code>── lib
+   ├── application.js
+   ├── context.js
+   ├── request.js
+   └── response.js
+
+// 每个文件的具体功能
+── lib
+   ├── new Koa()  || ctx.app
+   ├── ctx
+   ├── ctx.req  || ctx.request
+   └── ctx.res  || ctx.response
+复制代码
+</code></pre></div><p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/H8M5QJDxMHqDVfNYjycFhicdeSxfLCDqstZ3UFt0qh6Fec6XLcqD9RouQRQxpLnUiaQVXfKFrbHdVlVdVRWDwyEw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">undefined</p> <h2 id="koa源码基础骨架"><a href="#koa源码基础骨架" class="header-anchor">#</a> koa源码基础骨架</h2> <p><code>application.js</code> application.js是koa的主入口，也是核心部分，主要干了以下几件事情：</p> <ol><li>完成了koa实例初始化的工作，启动服务器</li> <li>实现了洋葱模型的中间件机制</li> <li>封装了高内聚的context对象</li> <li>实现了异步函数的统一错误处理机制</li></ol> <p><code>context.js</code> context.js主要干了两件事情：</p> <ol><li>完成了错误事件处理</li> <li>代理了response对象和request对象的部分属性和方法</li></ol> <p><code>request.js</code> request对象基于node原生req封装了一系列便利属性和方法，供处理请求时调用。所以当你访问ctx.request.xxx的时候，实际上是在访问request对象上的setter和getter。</p> <p><code>response.js</code> response对象基于node原生res封装了一系列便利属性和方法，供处理请求时调用。所以当你访问ctx.response.xxx的时候，实际上是在访问response对象上的setter和getter。</p> <p><strong>4个文件的代码结构如下：</strong></p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>undefined</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片">undefined</p> <h3 id="koa工作流"><a href="#koa工作流" class="header-anchor">#</a> koa工作流</h3> <p><strong>Koa整个流程可以分成三步:</strong></p> <ol><li>初始化阶段</li></ol> <p>new初始化一个实例，包括创建中间件数组、创建context/request/response对象，再使用use(fn)添加中间件到middleware数组，最后使用listen 合成中间件fnMiddleware，按照洋葱模型依次执行中间件，返回一个callback函数给http.createServer，开启服务器，等待http请求。结构图如下图所示：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片">undefined</p> <ol><li>请求阶段</li></ol> <p>每次请求，createContext生成一个新的ctx，传给fnMiddleware，触发中间件的整个流程。3. 响应阶段 整个中间件完成后，调用respond方法，对请求做最后的处理，返回响应给客户端。</p> <h3 id="koa中间件机制与实现"><a href="#koa中间件机制与实现" class="header-anchor">#</a> koa中间件机制与实现</h3> <p>koa中间件机制是采用koa-compose实现的，compose函数接收middleware数组作为参数，middleware中每个对象都是async函数，返回一个以context和next作为入参的函数，我们跟源码一样，称其为fnMiddleware在外部调用this.handleRequest的最后一行，运行了中间件：<code>fnMiddleware(ctx).then(handleResponse).catch(onerror);</code></p> <p>以下是<code>koa-compose</code>库中的核心函数：<img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>我们不禁会问：中间件中的<code>next</code>到底是什么呢？为什么执行<code>next</code>就进入到了下一个中间件了呢？中间件所构成的执行栈如下图所示，其中<code>next</code>就是一个含有<code>dispatch</code>方法的函数。在第1个中间件执行<code>next</code>时，相当于在执行<code>dispatch(2)</code>，就进入到了下一个中间件的处理流程。因为<code>dispatch</code>返回的都是<code>Promise</code>对象，因此在第n个中间件<code>await next()</code>时，就进入到了第n+1个中间件，而当第n+1个中间件执行完成后，可以返回第n个中间件。但是在某个中间件中，我们没有写<code>next()</code>，就不会再执行它后面所有的中间件。运行机制如下图所示：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>undefined</p> <h3 id="koa-convert解析"><a href="#koa-convert解析" class="header-anchor">#</a> koa-convert解析</h3> <p>在koa2中引入了koa-convert库，在使用use函数时，会使用到convert方法（只展示核心的代码）：</p> <div class="language- extra-class"><pre class="language-text"><code>const convert = require('koa-convert');
+
+module.exports = class Application extends Emitter {
+    use(fn) {
+        if (typeof fn !== 'function') throw new TypeError('middleware must be a function!');
+        if (isGeneratorFunction(fn)) {
+            deprecate('Support for generators will be removed';
+            fn = convert(fn);
+        }
+        debug('use %s', fn._name || fn.name || '-');
+        this.middleware.push(fn);
+        return this;
+    }
+}
+复制代码
+</code></pre></div><p>koa2框架针对koa1版本作了兼容处理，中间件函数如果是<code>generator</code>函数的话，会使用<code>koa-convert</code>进行转换为“类async函数”。首先我们必须理解<code>generator</code>和<code>async</code>的区别：<code>async</code>函数会自动执行，而<code>generator</code>每次都要调用next函数才能执行，因此我们需要寻找到一个合适的方法，让<code>next()</code>函数能够一直持续下去即可，这时可以将<code>generator</code>中<code>yield</code>的<code>value</code>指定成为一个<code>Promise</code>对象。下面看看<code>koa-convert</code>中的核心代码：</p> <div class="language- extra-class"><pre class="language-text"><code>const co = require('co')
+const compose = require('koa-compose')
+
+module.exports = convert
+
+function convert (mw) {
+  if (typeof mw !== 'function') {
+    throw new TypeError('middleware must be a function')
+  }
+  if (mw.constructor.name !== 'GeneratorFunction') {
+    return mw
+  }
+  const converted = function (ctx, next) {
+    return co.call(ctx, mw.call(ctx, createGenerator(next)))
+  }
+  converted._name = mw._name || mw.name
+  return converted
+}
+复制代码
+</code></pre></div><p>首先针对传入的参数mw作校验，如果不是函数则抛异常，如果不是<code>generator</code>函数则直接返回，如果是<code>generator</code>函数则使用<code>co</code>函数进行处理。co的核心代码如下：</p> <div class="language- extra-class"><pre class="language-text"><code>function co(gen) {
+  var ctx = this;
+  var args = slice.call(arguments, 1);
+  
+  return new Promise(function(resolve, reject) {
+    if (typeof gen === 'function') gen = gen.apply(ctx, args);
+    if (!gen || typeof gen.next !== 'function') return resolve(gen);
+
+    onFulfilled();
+    
+    function onFulfilled(res) {
+      var ret;
+      try {
+        ret = gen.next(res);
+      } catch (e) {
+        return reject(e);
+      }
+      next(ret);
+      return null;
+    }
+
+    function onRejected(err) {
+      var ret;
+      try {
+        ret = gen.throw(err);
+      } catch (e) {
+        return reject(e);
+      }
+      next(ret);
+    }
+
+    function next(ret) {
+      if (ret.done) return resolve(ret.value);
+      var value = toPromise.call(ctx, ret.value);
+      if (value &amp;&amp; isPromise(value)) return value.then(onFulfilled, onRejected);
+      return onRejected(new TypeError('You may only yield a function, promise, generator, array, or object, '
+        + 'but the following object was passed: &quot;' + String(ret.value) + '&quot;'));
+    }
+  });
+}
+复制代码
+</code></pre></div><p>由以上代码可以看出，co中作了这样的处理：</p> <ol><li>把一个<code>generator</code>封装在一个<code>Promise</code>对象中</li> <li>这个<code>Promise</code>对象再次把它的<code>gen.next()</code>也封装出<code>Promise</code>对象，相当于这个子<code>Promise</code>对象完成的时候也重复调用<code>gen.next()</code></li> <li>当所有迭代完成时，对父<code>Promise</code>对象进行<code>resolve</code></li></ol> <p>以上工作完成后，就形成了一个类async函数。</p> <h3 id="异步函数的统一错误处理机制"><a href="#异步函数的统一错误处理机制" class="header-anchor">#</a> 异步函数的统一错误处理机制</h3> <p>在koa框架中，有两种错误的处理机制，分别为：</p> <ol><li>中间件捕获</li> <li>框架捕获</li></ol> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片">undefined</p> <p>中间件捕获是针对中间件做了错误处理响应，如<code>fnMiddleware(ctx).then(handleResponse).catch(onerror)</code>，在中间件运行出错时，会出发onerror监听函数。框架捕获是在<code>context.js</code>中作了相应的处理<code>this.app.emit('error', err, this)</code>，这里的<code>this.app</code>是对<code>application</code>的引用，当<code>context.js</code>调用<code>onerror</code>时，实际上是触发<code>application</code>实例的<code>error</code>事件 ，因为<code>Application</code>类是继承自<code>EventEmitter</code>类的，因此具备了处理异步事件的能力，可以使用<code>EventEmitter</code>类中对于异步函数的错误处理方法。</p> <p>koa为什么能实现异步函数的统一错误处理？因为async函数返回的是一个Promise对象，如果async函数内部抛出了异常，则会导致Promise对象变为reject状态，异常会被catch的回调函数(onerror)捕获到。如果await后面的Promise对象变为reject状态，reject的参数也可以被catch的回调函数(onerror)捕获到。</p> <h3 id="委托模式在koa中的应用"><a href="#委托模式在koa中的应用" class="header-anchor">#</a> 委托模式在koa中的应用</h3> <p>delegates库由知名的 TJ 所写，可以帮我们方便快捷地使用设计模式当中的委托模式，即外层暴露的对象将请求委托给内部的其他对象进行处理。</p> <p>delegates 基本用法就是将内部对象的变量或者函数绑定在暴露在外层的变量上，直接通过 delegates 方法进行如下委托，基本的委托方式包含：</p> <ul><li>getter：外部对象可以直接访问内部对象的值</li> <li>setter：外部对象可以直接修改内部对象的值</li> <li>access：包含 getter 与 setter 的功能</li> <li>method：外部对象可以直接调用内部对象的函数</li></ul> <p>delegates 原理就是__defineGetter__和__defineSetter__。在application.createContext函数中，被创建的context对象会挂载基于request.js实现的request对象和基于response.js实现的response对象。下面2个delegate的作用是让context对象代理request和response的部分属性和方法：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片">undefined</p> <p>做了以上的处理之后，<code>context.request</code>的许多属性都被委托在<code>context上</code>了，<code>context.response</code>的许多方法都被委托在<code>context</code>上了，因此我们不仅可以使用<code>this.ctx.request.xx</code>、<code>this.ctx.response.xx</code>取到对应的属性，还可以通过<code>this.ctx.xx</code>取到<code>this.ctx.request</code>或<code>this.ctx.response</code>下挂载的<code>xx</code>方法。</p> <p>我们在源码中可以看到，response.js和request.js使用的是get set代理，而context.js使用的是delegate代理，为什么呢？因为delegate方法比较单一，只代理属性；但是使用set和get方法还可以加入一些额外的逻辑处理。在context.js中，只需要代理属性即可，使用delegate方法完全可以实现此效果，而在response.js和request.js中是需要处理其他逻辑的，如以下对query作的格式化操作：</p> <div class="language- extra-class"><pre class="language-text"><code>get query() {
+  const str = this.querystring;
+  const c = this._querycache = this._querycache || {};
+  return c[str] || (c[str] = qs.parse(str));
+}
+复制代码
+</code></pre></div><p>到这里，相信你对koa2的原理实现有了更深的理解吧？</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">8/10/2021, 2:19:21 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/node/1-koa/koa实践总结.html" class="prev">
+        Koa实践总结
+      </a></span> <span class="next"><a href="/node/2-nginx/彻底搞懂 Nginx 的五大应用场景.html">
+        彻底搞懂 Nginx 的五大应用场景
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.4e7306f2.js" defer></script><script src="/assets/js/2.089a9349.js" defer></script><script src="/assets/js/42.7f205067.js" defer></script>
+  </body>
+</html>

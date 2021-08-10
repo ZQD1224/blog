@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Koa实践总结 | duangdong的blog</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,js,vuepress,leetcode,react,react进阶,css,js进阶,react性能优化,js设计模式">
+    
+    <link rel="preload" href="/assets/css/0.styles.7d57e154.css" as="style"><link rel="preload" href="/assets/js/app.4e7306f2.js" as="script"><link rel="preload" href="/assets/js/2.089a9349.js" as="script"><link rel="preload" href="/assets/js/41.7deb9d44.js" as="script"><link rel="prefetch" href="/assets/js/10.e4129a75.js"><link rel="prefetch" href="/assets/js/11.2979228c.js"><link rel="prefetch" href="/assets/js/12.967032b4.js"><link rel="prefetch" href="/assets/js/13.382c0126.js"><link rel="prefetch" href="/assets/js/14.4462e192.js"><link rel="prefetch" href="/assets/js/15.1a2ad78e.js"><link rel="prefetch" href="/assets/js/16.d8aabfc4.js"><link rel="prefetch" href="/assets/js/17.b1b14ced.js"><link rel="prefetch" href="/assets/js/18.6381bd07.js"><link rel="prefetch" href="/assets/js/19.e1d88862.js"><link rel="prefetch" href="/assets/js/20.9fc12d0b.js"><link rel="prefetch" href="/assets/js/21.32087fe8.js"><link rel="prefetch" href="/assets/js/22.569c0b70.js"><link rel="prefetch" href="/assets/js/23.904cd88f.js"><link rel="prefetch" href="/assets/js/24.2b2f4bb6.js"><link rel="prefetch" href="/assets/js/25.73f4e989.js"><link rel="prefetch" href="/assets/js/26.9f800f35.js"><link rel="prefetch" href="/assets/js/27.d4639879.js"><link rel="prefetch" href="/assets/js/28.0f698c22.js"><link rel="prefetch" href="/assets/js/29.baec863c.js"><link rel="prefetch" href="/assets/js/3.56aa1c74.js"><link rel="prefetch" href="/assets/js/30.9169b2e7.js"><link rel="prefetch" href="/assets/js/31.8f3b396f.js"><link rel="prefetch" href="/assets/js/32.fa69df06.js"><link rel="prefetch" href="/assets/js/33.37897fde.js"><link rel="prefetch" href="/assets/js/34.e4c930ca.js"><link rel="prefetch" href="/assets/js/35.ac93870f.js"><link rel="prefetch" href="/assets/js/36.2673cc72.js"><link rel="prefetch" href="/assets/js/37.60009020.js"><link rel="prefetch" href="/assets/js/38.79171963.js"><link rel="prefetch" href="/assets/js/39.6938b87f.js"><link rel="prefetch" href="/assets/js/4.ef07e727.js"><link rel="prefetch" href="/assets/js/40.8e6ace96.js"><link rel="prefetch" href="/assets/js/42.7f205067.js"><link rel="prefetch" href="/assets/js/43.8ebc2622.js"><link rel="prefetch" href="/assets/js/44.499d3895.js"><link rel="prefetch" href="/assets/js/45.137c225a.js"><link rel="prefetch" href="/assets/js/46.999fc668.js"><link rel="prefetch" href="/assets/js/47.b2a407fe.js"><link rel="prefetch" href="/assets/js/48.f7742dc5.js"><link rel="prefetch" href="/assets/js/49.01a0c908.js"><link rel="prefetch" href="/assets/js/5.852455a1.js"><link rel="prefetch" href="/assets/js/50.a6966cb3.js"><link rel="prefetch" href="/assets/js/51.3db01d61.js"><link rel="prefetch" href="/assets/js/52.5f0256d1.js"><link rel="prefetch" href="/assets/js/53.03ae4d1b.js"><link rel="prefetch" href="/assets/js/54.58f05fcf.js"><link rel="prefetch" href="/assets/js/55.cd5aeb9f.js"><link rel="prefetch" href="/assets/js/56.3cf754d6.js"><link rel="prefetch" href="/assets/js/6.c9125bc1.js"><link rel="prefetch" href="/assets/js/7.6efc051b.js"><link rel="prefetch" href="/assets/js/8.af4d5805.js"><link rel="prefetch" href="/assets/js/9.6a8418f6.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.7d57e154.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/leetcode/" class="nav-link">
+  Leetcode
+</a></div><div class="nav-item"><a href="/algorithm/" class="nav-link">
+  数据结构
+</a></div><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/node/" class="nav-link router-link-active">
+  Node
+</a></div><div class="nav-item"><a href="https://react.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://qa.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  QA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人链接" class="dropdown-title"><span class="title">个人链接</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人链接" class="mobile-dropdown-title"><span class="title">个人链接</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://essay.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  随笔
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="http://qdzhou.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  博客
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://www.yuque.com/xdxmvy" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  语雀
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/ZQD1224/note" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/leetcode/" class="nav-link">
+  Leetcode
+</a></div><div class="nav-item"><a href="/algorithm/" class="nav-link">
+  数据结构
+</a></div><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/node/" class="nav-link router-link-active">
+  Node
+</a></div><div class="nav-item"><a href="https://react.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://qa.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  QA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人链接" class="dropdown-title"><span class="title">个人链接</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人链接" class="mobile-dropdown-title"><span class="title">个人链接</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://essay.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  随笔
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="http://qdzhou.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  博客
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://www.yuque.com/xdxmvy" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  语雀
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/ZQD1224/note" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/node/" aria-current="page" class="sidebar-link">node</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>1-koa</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/node/1-koa/koa-mongo.html" class="sidebar-link">Koa结合MongoDB使用</a></li><li><a href="/node/1-koa/koa-mysql.html" class="sidebar-link">koa2中对mysql简单封装实现增删改查的基本操作</a></li><li><a href="/node/1-koa/koa-swagger.html" class="sidebar-link">Koa结合swagger-ui使用</a></li><li><a href="/node/1-koa/koa-webpack.html" class="sidebar-link">在koa2中使用webpack进行项目打包</a></li><li><a href="/node/1-koa/koa2.html" class="sidebar-link">Koa2</a></li><li><a href="/node/1-koa/koa实践总结.html" class="active sidebar-link">Koa实践总结</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#koa实践总结" class="sidebar-link">Koa实践总结</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#为什么选择-koa" class="sidebar-link">为什么选择 Koa</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#搭建项目并启动服务" class="sidebar-link">搭建项目并启动服务</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#改造路由" class="sidebar-link">改造路由</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#参数解析" class="sidebar-link">参数解析</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#统一返回格式-错误处理" class="sidebar-link">统一返回格式 &amp; 错误处理</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#跨域设置" class="sidebar-link">跨域设置</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#添加日志" class="sidebar-link">添加日志</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#参数校验" class="sidebar-link">参数校验</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#数据库操作" class="sidebar-link">数据库操作</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#目前为止目录结构" class="sidebar-link">目前为止目录结构</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#总结" class="sidebar-link">总结</a></li><li class="sidebar-sub-header"><a href="/node/1-koa/koa实践总结.html#参考资料" class="sidebar-link">参考资料</a></li></ul></li><li><a href="/node/1-koa/搞懂koa2原理.html" class="sidebar-link">一文搞懂 koa2 核心原理</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>2-nginx</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>3-puppeteer</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Bug</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/node/Node 进程管理模块 PM2 的核心知识点.html" class="sidebar-link">10分钟快速过一遍 Node 进程管理模块 PM2 的核心知识点</a></li><li><a href="/node/babel-nodemon.html" class="sidebar-link">babel nodemon</a></li><li><a href="/node/jsencrypt.html" class="sidebar-link">链接</a></li><li><a href="/node/jsonwebtoken.html" class="sidebar-link">jsonwebtoken</a></li><li><a href="/node/nvm.html" class="sidebar-link">Nvm</a></li><li><a href="/node/other.html" class="sidebar-link">babel</a></li><li><a href="/node/passport.html" class="sidebar-link">passport</a></li><li><a href="/node/pm2.html" class="sidebar-link">pm2</a></li><li><a href="/node/浅析 Node 进程与线程.html" class="sidebar-link">浅析 Node 进程与线程</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="koa实践总结"><a href="#koa实践总结" class="header-anchor">#</a> Koa实践总结</h2> <blockquote><p><a href="https://mp.weixin.qq.com/s/siGxYq7TvcD3g580BZJkRw" target="_blank" rel="noopener noreferrer">https://mp.weixin.qq.com/s/siGxYq7TvcD3g580BZJkRw<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h2 id="为什么选择-koa"><a href="#为什么选择-koa" class="header-anchor">#</a> 为什么选择 Koa</h2> <p>小王：为什么选择<code>Koa</code>?
+老王：因为 Koa 比较<code>轻量</code>，几乎没有内置任何的额外功能。也是因为这个原因，Koa 的<code>灵活度</code>是很高的，喜欢折腾的人可以尝试下
+小王：又轻量又几乎没有任何额外功能？那为什么不用原生<code>Node</code>？那个不是更轻？
+老王：这个。。。。 我还是先说说怎么用吧</p> <blockquote><p>有点长，心急的可以查看完整代码  https://github.com/JustGreenHand/koa-app</p></blockquote> <h2 id="搭建项目并启动服务"><a href="#搭建项目并启动服务" class="header-anchor">#</a> 搭建项目并启动服务</h2> <p>经过一系列基操之后，生成如下所示的目录结构：<img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO0ptkwkREsOqaftBbqbFnTCLOfQF6nfSgnAXcpGy3qnQdk3Vkl5FRlgw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>接下来我们在启动文件 <code>app/index.js</code> 文件中写入最简单的启动服务代码:</p> <div class="language- extra-class"><pre class="language-text"><code>const Koa = require('koa');
+
+const app = new Koa();
+
+const port = '8082'
+const host = '0.0.0.0'
+
+app.use(async ctx =&gt; {
+  ctx.body = 'Hello World';
+});
+
+app.listen(port, host, () =&gt; {
+  console.log(`API server listening on ${host}:${port}`);
+});
+</code></pre></div><p>我们运行一下 <code>node app/index.js</code> 命令，这个时候，最简单的 node 服务已经启动起来了。浏览器里访问 <code>http://localhost:8082</code> 已经可以正常响应了</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO0JmLVldHXIGl2kp9tBd9SbnkZibZIzMm3nWWqPWTTDpHBnhLouDoic3qg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p><img src="http://mmbiz.qpic.cn/mmbiz_png/jQmwTIFl1V0dLQzNJW15CVaCoNjposvTpccciaj05o5nPiaqfLRRfTQiaYFYPN41Etrrqt8jPOWukPmJWt3lYxwuA/0?wx_fmt=png" alt="全栈修仙之路"></p> <p><strong>全栈修仙之路</strong></p> <p>专注分享 TS、Vue3、前端架构和源码解析等技术干货。</p> <p>125篇原创内容</p> <p>公众号</p> <h2 id="改造路由"><a href="#改造路由" class="header-anchor">#</a> 改造路由</h2> <p>当项目功能慢慢多起来的时候，路由处理也相应的多了起来，<code>app/index.js</code> 代码就成了下面这样：</p> <div class="language- extra-class"><pre class="language-text"><code>const Koa = require('koa');
+
+const app = new Koa();
+
+const port = '8082'
+const host = '0.0.0.0'
+
+app.use(async ctx =&gt; {
+  const { path } = ctx
+  if (path === '/a') {
+    // 功能 A
+    ctx.body = 'a';
+  } else if (path === '/b') {
+    // 功能 B
+    ctx.body = 'b';
+  } else if (path === '/c') {
+    // 功能 C
+    ctx.body = 'c';
+  } else {
+    ctx.body = 'hello world'
+  }
+});
+
+app.listen(port, host, () =&gt; {
+  console.log(`API server listening on ${host}:${port}`);
+});
+</code></pre></div><p>这种将所有路由和路由处理函数写在一起的方式，后期会难以维护，代码量长了容易找不到重点。所以我们将路由处理的部分从启动文件 <code>app/index.js</code> 里摘出来，单独维护一个路由文件，并用第三方路由管理插件<code>koa-router</code> 来管理路由。我们在 <code>app</code> 目录下新建 <code>router</code> 目录，如下所示:</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO0QZUvB5ibfm68W8IgK4ITF9WRYTZvOjOS5PNIAEbM6g39XXYExHhsegw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>首先我们安装下路由处理插件( koa-ruoter 文档 ): <code>npm install koa-router -s</code>, 再在 <code>app/router/index.js</code> 文件中编写路由处理部分的代码</p> <div class="language- extra-class"><pre class="language-text"><code>const koaRouter = require('koa-router');
+const router = new koaRouter();
+
+router.get('/a', ctx =&gt; {
+  ctx.body = 'a'
+});
+
+router.get('/b', ctx =&gt; {
+  ctx.body = 'b'
+});
+
+router.get('/c', ctx =&gt; {
+  ctx.body = 'c'
+});
+
+module.exports = router;
+</code></pre></div><p>修改 <code>app/index.js</code> 的代码，路由处理从 <code>app/router/index.js</code> 文件引入:</p> <div class="language- extra-class"><pre class="language-text"><code>const Koa = require('koa');
+
+const router = require('./router')
+
+const app = new Koa();
+
+const port = '8082'
+const host = '0.0.0.0'
+
+app.use(router.routes());
+/*
+    原先当路由存在，请求方式不匹配的时候，会报 404，
+    加了这个中间件，会报请求方式不被允许
+*/
+app.use(router.allowedMethods());
+
+
+app.listen(port, host, () =&gt; {
+  console.log(`API server listening on ${host}:${port}`);
+});
+</code></pre></div><p>尝试访问 <code>http://localhost:8082/a</code> 返回结果与改造前一致。到这里为止，各个文件看起来是各司其职，功能拆分比较明确的。但是当接口越来越多的时候，我们的路由处理文件还是会越来越庞大，我们的目标是路由处理文件只关心路由的处理，具体业务逻辑不关心。所以这里再次将路由处理文件进行任务拆分。</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO07hLZUfhulGQ2nXm5ickJPtOe7gNmlzCPe0xlvAkc4YcxpKdjBze5qnQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>如上图，这个阶段我们新增了三个文件</p> <ul><li><code>app/router/routes.js</code>    路由列表文件</li> <li><code>app/contronllers/index.js</code> 业务处理统一导出</li> <li><code>app/contronllers/test.js</code>  业务处理文件</li></ul> <p>将各业务逻辑的代码放在 controllers 下，示例文件 <code>app/contronllers/test.js</code>:</p> <div class="language- extra-class"><pre class="language-text"><code>const list = async ctx =&gt; {
+  ctx.body = '路由改造后的结果'
+}
+
+module.exports = {
+  list
+}
+</code></pre></div><p>将这部分业务处理代码导入到 <code>app/contronllers/index.js</code>:</p> <div class="language- extra-class"><pre class="language-text"><code>const test = require('./test');
+
+module.exports = {
+  test
+};
+</code></pre></div><p>这样的好处是所有业务处理统一一个入口，利于维护。接下来编写文件 <code>app/router/routes.js</code>:</p> <div class="language- extra-class"><pre class="language-text"><code>const { test } = require('../controllers');
+
+const routes = [
+  {
+    //  测试
+    method: 'get',
+    path: '/a',
+    controller: test.list
+  }
+];
+
+module.exports = routes;
+</code></pre></div><p>这个时候，原本的 <code>app/router/index.js</code> 文件也需要做相应的修改了:</p> <div class="language- extra-class"><pre class="language-text"><code>/* const Router = require('koa-router');
+const router = new Router();
+
+router.get('/a', ctx =&gt; {
+  ctx.body = 'a'
+});
+
+router.get('/b', ctx =&gt; {
+  ctx.body = 'b'
+});
+
+router.get('/c', ctx =&gt; {
+  ctx.body = 'c'
+});
+
+module.exports = router; */
+
+
+const koaRouter = require('koa-router');
+const router = new koaRouter();
+
+const routeList = require('./routes');
+
+routeList.forEach(item =&gt; {
+  const { method, path, controller } = item;
+  //  router 第一个参数是 path， 后面跟上路由级中间件 controller（上面编写的路由处理函数）
+  router[method](path, controller);
+});
+
+module.exports = router;
+</code></pre></div><p>经过上面的改造后，再次访问下 <code>http://localhost:8082/a</code>，返回结果:</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO0jblgwV4wz3nQg1U9bgbI7AVVf01SkNVRibESvElJM80LFOY0kJHg6Jg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>看起来没啥问题，到这里为止路由改造已经完成，而且顺便把启动文件，路由文件，路由处理文件三部分拆开了</p> <h2 id="参数解析"><a href="#参数解析" class="header-anchor">#</a> 参数解析</h2> <p>一番实际操作后，发现 post 请求时，拿不到 <code>body</code> 里的参数。如下截图:<img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO0aMJoL6KdcibHolg1quCrmuXrdddJAu2LIYwLzbJQtygrMjGEbokN5SQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">
+期望的返回值为 <code>{&quot;a&quot;: 4}</code>, 实际为:<img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO0defR9BF7NxXvCPr1omGC0ra9FfU5ialE0LicUuEE17wC2asdxske7sXg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>翻阅资料后这里需要加上一个参数解析的中间件。考虑到后面可能会添加更多的中间件，在具体处理参数之前，先将当前的代码再次进行改造下，将中间件处理单独从启动文件 <code>app/index.js</code> 里摘出来，新建一个  <code>app/middlewares</code> 目录，在该目录中我们添加 <code>index.js</code> 文件:</p> <div class="language- extra-class"><pre class="language-text"><code>const router = require('../router');
+
+/**
+ * 路由处理
+ */
+const mdRoute = router.routes();
+const mdRouterAllowed = router.allowedMethods();
+
+module.exports = [
+  mdRoute,
+  mdRouterAllowed
+];
+</code></pre></div><p>上面文件里集中了所有用到的中间件，目前为止是两个路由处理的中间件，接下来改造下启动文件 <code>app/index.js</code>:</p> <div class="language- extra-class"><pre class="language-text"><code>const Koa = require('koa');
+
+const compose = require('koa-compose');
+const MD = require('./middlewares/');
+
+const app = new Koa();
+
+const port = '8082'
+const host = '0.0.0.0'
+
+app.use(compose(MD));
+
+app.listen(port, host, () =&gt; {
+  console.log(`API server listening on ${host}:${port}`);
+});
+</code></pre></div><p>这里引入了一个插件 koa-compose，作用是简化引用中间件的写法。到这里准备工作已经做好了，开始处理参数解析的问题</p> <p>安装第三方参数解析插件 koa-bodyparser 来帮我们处理 post 请求体中的参数。修改 <code>app/middlewares/index.js</code> 文件:</p> <div class="language- extra-class"><pre class="language-text"><code>const koaBody = require('koa-bodyparser');
+
+const router = require('../router');
+
+/**
+ * 参数解析
+ * https://github.com/koajs/bodyparser
+ */
+const mdKoaBody = koaBody({
+  enableTypes: [ 'json', 'form', 'text', 'xml' ],
+  formLimit: '56kb',
+  jsonLimit: '1mb',
+  textLimit: '1mb',
+  xmlLimit: '1mb',
+  strict: true
+});
+
+/**
+ * 路由处理
+ */
+const mdRoute = router.routes();
+const mdRouterAllowed = router.allowedMethods();
+
+module.exports = [
+  mdKoaBody,
+  mdRoute,
+  mdRouterAllowed
+];
+</code></pre></div><p>因为我们已经改造过启动文件了，所以不需要在启动文件里再添加 <code>app.use()</code> 了。这里再次尝试用 post 请求:<img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO05ic3QDc45Ce74aCRj1t0muF2X9BKZibQiaJ6HuaTFt8mCgBOaJnolibdMA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>发现已经是我们的预期结果了。不过这里还是有个坑:</p> <div class="language- extra-class"><pre class="language-text"><code>const mdKoaBody = koaBody({
+  enableTypes: [ 'json', 'form', 'text', 'xml' ],
+  formLimit: '56kb',
+  jsonLimit: '1mb',
+  textLimit: '1mb',
+  xmlLimit: '1mb',
+  strict: true
+});
+</code></pre></div><p>从这段代码可以稍微看出，<code>koa-bodyparser</code> 这个插件只能解析 4 种数据<code>[ 'json', 'form', 'text', 'xml' ]</code>，当我们上传文件的时候，我们是获取不到文件的。秉持自己不会造可以白嫖绝不自己造轮子的原则，我们又在网上找到了解决方法，引入新的插件 <code>formidable</code>，由于这部分代码稍微有点多，所以我们在 <code>app/middlewares</code> 目录下再单独新建一个 <code>formidable.js</code> 文件，代码如下:</p> <div class="language- extra-class"><pre class="language-text"><code>const Formidable = require('formidable');
+
+const { tempFilePath } = require('../config');
+
+module.exports = () =&gt; {
+  return async function (ctx, next) {
+    const form = new Formidable({
+      multiples: true, 
+      //  上传的临时文件保存路径
+      uploadDir: `${process.cwd()}/${tempFilePath}`
+    });
+
+    // eslint-disable-next-line promise/param-names
+    await new Promise((reslove, reject) =&gt; {
+      form.parse(ctx.req, (err, fields, files) =&gt; {
+        if (err) {
+          reject(err);
+        } else {
+          ctx.request.body = fields;
+          ctx.request.files = files;
+          reslove();
+        }
+      });
+    });
+
+    await next();
+  };
+};
+</code></pre></div><p>formidable 具体用法就不解释了，有兴趣的可以 查看文档，这里，我们将写好的中间件在 <code>app/middlewares/index.js</code> 中使用:</p> <div class="language- extra-class"><pre class="language-text"><code>/**
+ * 引入第三方插件
+ */
+const koaBody = require('koa-bodyparser');
+
+/**
+ * 引入自定义文件
+ */
+const router = require('../router');
+const formidable = require('./formidable');
+
+/**
+ * 参数解析
+ * https://github.com/koajs/bodyparser
+ */
+const mdFormidable = formidable();
+const mdKoaBody = koaBody({
+  enableTypes: [ 'json', 'form', 'text', 'xml' ],
+  formLimit: '56kb',
+  jsonLimit: '1mb',
+  textLimit: '1mb',
+  xmlLimit: '1mb',
+  strict: true
+});
+
+/**
+ * 路由处理
+ */
+const mdRoute = router.routes();
+const mdRouterAllowed = router.allowedMethods();
+
+module.exports = [
+  mdFormidable,
+  mdKoaBody,
+  mdRoute,
+  mdRouterAllowed
+];
+</code></pre></div><p>写到这里应该是可以了，我们来测试下：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO0tF7IB7qBuicrsiab06pQwQgBEEefJBTPsSWPJ7HtP2DalyDlW7IWCKPw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"><img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO0T6CBXNM42MCCiaI6smiawOGibGUJ5GjVvjTP9Yv07COGHJcEfia4Gwx3nw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>从结果看出，我们的期望结果已经拿到了。到这里，参数解析算是处理好了</p> <blockquote><p>补充下 <code>formidable.js</code> 文件中使用的  <code>const { tempFilePath } = require('../config')</code>。这里我们新加了个配置目录 <code>app/config</code>，主要用来存在各种配置，目录下有 5 个文件，分别是:</p> <ul><li><code>app/config/index.js</code></li> <li><code>app/config/base.js</code></li> <li><code>app/config/dev.js</code></li> <li><code>...</code>除了<code>index.js</code> 文件，其他文件可以根据项目的实际情况来创建</li></ul> <p>这里主要看下 <code>app/config/index.js</code> 文件:</p> <div class="language- extra-class"><pre class="language-text"><code>const base = require('./base');
+const dev = require('./dev');
+const pre = require('./pre');
+const pro = require('./pro');
+
+const env = process.env.NODE_ENV || 'dev';
+
+const configMap = {
+  dev,
+  pre,
+  pro
+}
+
+
+module.exports = Object.assign(base, configMap[env]);
+</code></pre></div></blockquote> <h2 id="统一返回格式-错误处理"><a href="#统一返回格式-错误处理" class="header-anchor">#</a> 统一返回格式 &amp; 错误处理</h2> <p>在实现错误处理和统一返回格式之前，我们再做一点小小的改造。前面我们创建了 config 目录，里面存了一些常量配置，接下来我们还会创建一个 <code>common/utils.js</code> 用来存放工具函数，如果每个引用到的地方都 <code>require</code> 来引入是比较麻烦的，所以我们把工具函数和常量配置放到 <code>app.context</code> 的属性上，之后就不用频繁引入了，可以通过 <code>ctx.</code>来访问，改造 <code>app/index.js</code> 如下:</p> <div class="language- extra-class"><pre class="language-text"><code>const Koa = require('koa');
+const compose = require('koa-compose');
+
+const MD = require('./middlewares/');
+const config = require('./config')
+const utils = require('./common/utils')
+
+const app = new Koa();
+
+const port = '8082'
+const host = '0.0.0.0'
+
+app.context.config = config;
+app.context.utils = utils;
+
+app.use(compose(MD));
+
+app.listen(port, host, () =&gt; {
+  console.log(`API server listening on ${host}:${port}`);
+});
+</code></pre></div><p>接下来开始正题，先来搞定统一返回格式的问题。这个第一反应就是写个工具函数，不要太简单:</p> <div class="language- extra-class"><pre class="language-text"><code>const successRes = (data, msg) =&gt; {
+    return {
+        code: 0,
+        data,
+        msg: msg || 'success',
+    }
+}
+const failRes = (code = 1, data, msg) =&gt; {
+    return {
+        code,
+        data,
+        msg: msg || 'fail',
+    }
+}
+
+ctx.body = ctx.utils.successRes('aaa')
+//  或
+ctx.body = ctx.utils.failRes(10001)
+</code></pre></div><p>这么写也没有问题，但是其实可以更加纯粹点，充分利用 koa 洋葱模型的优势，让 <code>ctx.body</code> 更加简洁，返回的就是正确的结果，如: <code>ctx.body = data</code>，想到这里，那还是添加中间件了。这里需要加两个，一个错误处理，一个统一返回格式，这两个是相关联的，所以在一起写了</p> <p>文件 <code>app/middlewares/response.js</code></p> <div class="language- extra-class"><pre class="language-text"><code>const response = () =&gt; {
+  return async (ctx, next) =&gt; {
+    ctx.res.fail = ({ code, data, msg }) =&gt; {
+      ctx.body = {
+        code,
+        data,
+        msg,
+      };
+    };
+
+    ctx.res.success = msg =&gt; {
+      ctx.body = {
+        code: 0,
+        data: ctx.body,
+        msg: msg || 'success',
+      };
+    };
+
+    await next();
+  };
+};
+
+module.exports = response;
+</code></pre></div><p>文件 <code>app/middlewares/error.js</code></p> <div class="language- extra-class"><pre class="language-text"><code>const error = () =&gt; {
+  return async (ctx, next) =&gt; {
+    try {
+      await next();
+      if (ctx.status === 200) {
+        ctx.res.success();
+      }
+    } catch (err) {
+      if (err.code) {
+        // 自己主动抛出的错误
+        ctx.res.fail({ code: err.code, msg: err.message });
+      } else {
+        // 程序运行时的错误
+        ctx.app.emit('error', err, ctx);
+      }
+    }
+  };
+};
+
+module.exports = error;
+</code></pre></div><p>在 <code>app/middlewares/index.js</code> 文件中引入上面的两个中间件:</p> <div class="language- extra-class"><pre class="language-text"><code>/**
+ * 引入第三方插件
+ */
+const koaBody = require('koa-bodyparser');
+
+/**
+ * 引入自定义文件
+ */
+const router = require('../router');
+const formidable = require('./formidable');
+const response = require('./response');
+const error = require('./error');
+
+/**
+ * 参数解析
+ * https://github.com/koajs/bodyparser
+ */
+const mdFormidable = formidable();
+const mdKoaBody = koaBody({
+  enableTypes: [ 'json', 'form', 'text', 'xml' ],
+  formLimit: '56kb',
+  jsonLimit: '1mb',
+  textLimit: '1mb',
+  xmlLimit: '1mb',
+  strict: true
+});
+
+/**
+ * 统一返回格式
+ */
+const mdResHandler = response();
+/**
+ * 错误处理
+ */
+const mdErrorHandler = error();
+
+/**
+ * 路由处理
+ */
+const mdRoute = router.routes();
+const mdRouterAllowed = router.allowedMethods();
+
+module.exports = [
+  mdFormidable,
+  mdKoaBody,
+  mdResHandler,
+  mdErrorHandler,
+  mdRoute,
+  mdRouterAllowed
+];
+</code></pre></div><p>从这里看出，我们所有的返回值是在 <code>app/middlewares/error.js</code> 里拦截了一下，如果状态码是 200，用成功的工具函数包装返回，如果不是则又分为两种情况：一种是我们自己抛出的，包含业务错误码的情况(这种情况我们用失败的工具函数包装返回)；另一种是程序运行时报的错，这个往往是我们代码写的有问题(这种情况我们触发 koa 的错误处理事件去处理)，针对失败的第二种情况，我们还需要修改启动文件 <code>app/index.js</code>，添加如下代码:</p> <div class="language- extra-class"><pre class="language-text"><code>app.on('error', (err, ctx) =&gt; {
+  if (ctx) {
+    ctx.body = {
+      code: 9999,
+      message: `程序运行时报错：${err.message}`
+    };
+  }
+});
+</code></pre></div><p>完成上面的操作之后我们再来测试下我们的代码: 当 <code>app/controllers/test.js</code> 中代码如下时:</p> <div class="language- extra-class"><pre class="language-text"><code>const list = async ctx =&gt; {
+  ctx.body = '返回结果'
+}
+</code></pre></div><p>请求接口，返回值如下:<img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>符合我们的预期</p> <p>接下来我们修改 <code>app/controllers/test.js</code>， 业务中抛出业务错误码</p> <div class="language- extra-class"><pre class="language-text"><code>const list = async ctx =&gt; {
+  const data = ''
+  ctx.utils.assert(data, ctx.utils.throwError(10001, '验证码失效'))
+  ctx.body = '返回结果'
+}
+</code></pre></div><p>再次返送请求，结果如下:<img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO0ZZRaqHSDpNWTFZcZnK3VLCpNjZb0cuSmrrzRqU3qRRib0w5gY1zK4Fg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>符合预期</p> <p>再次修改 <code>app/controllers/test.js</code> 故意写错代码</p> <div class="language- extra-class"><pre class="language-text"><code>const list = async ctx =&gt; {
+  const b = a;
+  ctx.body = '返回结果'
+}
+</code></pre></div><p>再次发送请求看下结果:<img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO0AibPoNdOEa2voqqGOeFZdZrO5x4lO2xjN9KCHo4SKtZQnpTAbypw0Uw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>符合预期</p> <p>到这为止，错误处理搞定了，统一返回格式也搞定了，可以搞其他的了</p> <h2 id="跨域设置"><a href="#跨域设置" class="header-anchor">#</a> 跨域设置</h2> <p>这个应该是最简单的了，直接使用插件 <code>@koa/cors</code> (查看文档)，因为这个代码量比较少，所以直接在文件 <code>app/middlewares/index.js</code> 里添加内容:</p> <div class="language- extra-class"><pre class="language-text"><code>const cors = require('@koa/cors');
+
+/**
+ * 跨域处理
+ */
+const mdCors = cors({
+  origin: '*',
+  credentials: true,
+  allowMethods: [ 'GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH' ]
+});
+
+module.exports = [
+  mdFormidable,
+  mdKoaBody,
+  mdCors,
+  mdResHandler,
+  mdErrorHandler,
+  mdRoute,
+  mdRouterAllowed
+];
+</code></pre></div><p>大功告成</p> <h2 id="添加日志"><a href="#添加日志" class="header-anchor">#</a> 添加日志</h2> <p>这里采用 <code>log4js</code> 查看文档 来记录请求日志，添加文件 <code>app/middlewares/log.js</code> :</p> <div class="language- extra-class"><pre class="language-text"><code>const log4js = require('log4js');
+const { outDir, flag, level } = require('../config').logConfig;
+
+log4js.configure({
+  appenders: { cheese: { type: 'file', filename: `${outDir}/receive.log` } },
+  categories: { default: { appenders: [ 'cheese' ], level: 'info' } },
+  pm2: true
+});
+
+const logger = log4js.getLogger();
+logger.level = level;
+
+module.exports = () =&gt; {
+  return async (ctx, next) =&gt; {
+    const { method, path, origin, query, body, headers, ip } = ctx.request;
+    const data = {
+      method,
+      path,
+      origin,
+      query,
+      body,
+      ip,
+      headers
+    };
+    await next();
+    if (flag) {
+      const { status, params } = ctx;
+      data.status = status;
+      data.params = params;
+      data.result = ctx.body || 'no content';
+      if (ctx.body.code !== 0) {
+        logger.error(JSON.stringify(data));
+      } else {
+        logger.info(JSON.stringify(data));
+      }
+    }
+  };
+};
+</code></pre></div><p>在 <code>app/middlewares/index.js</code> 中引入上面写的日志中间件:</p> <div class="language- extra-class"><pre class="language-text"><code>const log = require('./log');
+
+/**
+ * 记录请求日志
+ */
+const mdLogger = log();
+
+module.exports = [
+  mdFormidable,
+  mdKoaBody,
+  mdCors,
+  mdLogger,
+  mdResHandler,
+  mdErrorHandler,
+  mdRoute,
+  mdRouterAllowed
+];
+</code></pre></div><p>我们看下请求效果:<img src="https://mmbiz.qpic.cn/mmbiz_png/Tmczbd3NL038686AOs3WG5iaFbZGUoPO0XEHWDDDqX991r3Dic8w2MwM8fgR7bqia33r0dGnBicU2BqYaPFQ4ME0PQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <div class="language- extra-class"><pre class="language-text"><code>[2021-03-31T21:44:40.919] [INFO] default - {&quot;method&quot;:&quot;GET&quot;,&quot;path&quot;:&quot;/a&quot;,&quot;origin&quot;:&quot;http://localhost:8082&quot;,&quot;query&quot;:{&quot;name&quot;:&quot;张三&quot;,&quot;age&quot;:&quot;12&quot;},&quot;body&quot;:{},&quot;ip&quot;:&quot;127.0.0.1&quot;,&quot;headers&quot;:{&quot;user-agent&quot;:&quot;PostmanRuntime/7.26.8&quot;,&quot;accept&quot;:&quot;*/*&quot;,&quot;cache-control&quot;:&quot;no-cache&quot;,&quot;postman-token&quot;:&quot;d8be0c95-10f6-438c-aa37-1006be317081&quot;,&quot;host&quot;:&quot;localhost:8082&quot;,&quot;accept-encoding&quot;:&quot;gzip, deflate, br&quot;,&quot;connection&quot;:&quot;keep-alive&quot;},&quot;status&quot;:200,&quot;params&quot;:{},&quot;result&quot;:{&quot;code&quot;:0,&quot;data&quot;:&quot;返回结果&quot;,&quot;msg&quot;:&quot;success&quot;}}
+[2021-03-31T21:54:55.595] [ERROR] default - {&quot;method&quot;:&quot;GET&quot;,&quot;path&quot;:&quot;/a&quot;,&quot;origin&quot;:&quot;http://localhost:8082&quot;,&quot;query&quot;:{&quot;name&quot;:&quot;张三&quot;,&quot;age&quot;:&quot;12&quot;},&quot;body&quot;:{},&quot;ip&quot;:&quot;127.0.0.1&quot;,&quot;headers&quot;:{&quot;user-agent&quot;:&quot;PostmanRuntime/7.26.8&quot;,&quot;accept&quot;:&quot;*/*&quot;,&quot;cache-control&quot;:&quot;no-cache&quot;,&quot;postman-token&quot;:&quot;86b581e4-07cf-4b04-9b01-5e56c19f696f&quot;,&quot;host&quot;:&quot;localhost:8082&quot;,&quot;accept-encoding&quot;:&quot;gzip, deflate, br&quot;,&quot;connection&quot;:&quot;keep-alive&quot;},&quot;status&quot;:200,&quot;params&quot;:{},&quot;result&quot;:{&quot;code&quot;:9999,&quot;message&quot;:&quot;程序运行时报错：b is not defined&quot;}}
+</code></pre></div><p>到这里日志模块也好了。</p> <h2 id="参数校验"><a href="#参数校验" class="header-anchor">#</a> 参数校验</h2> <p>前面忘记了对参数做校验，不管是业务逻辑上的需要，还是为了避免程序运行时的错误，参数校验是非常有必要的。还是那句话，我们可以把参数校验放在对应的 controller 里去做，类似这样:</p> <div class="language- extra-class"><pre class="language-text"><code>const list = async ctx =&gt; {
+  const { name, age } = ctx.request.query
+  if (!name) ctx.utils.assert(false, ctx.utils.throwError(10001, 'name 是必须的'))
+  if (!age) ctx.utils.assert(false, ctx.utils.throwError(10001, 'age 是必须的'))
+  ctx.body = name + age
+}
+</code></pre></div><p>但是当参数较多时，controller 会显得非常庞大，而且我们一眼看不到这个函数的重点，而且我要写很多重复的没用的代码，类似 <code>ctx.utils.assert(false, ctx.utils.throwError(10001, 'name 是必须的'))</code> ，我希望我在 controller 层一上来就能写一些业务代码，最合理的还是将参数校验放在中间件中去统一处理，这里我们采用第三方插件 <code>@hapi/joi</code> 来处理，在 <code>app/middlewares/</code> 下添加 <code>paramValidator.js</code> 文件：</p> <div class="language- extra-class"><pre class="language-text"><code>module.exports = paramSchema =&gt; {
+  return async function (ctx, next) {
+    let body = ctx.request.body;
+    try {
+      if (typeof body === 'string' &amp;&amp; body.length) body = JSON.parse(body);
+    } catch (error) {}
+    const paramMap = {
+      router: ctx.request.params,
+      query: ctx.request.query,
+      body
+    };
+
+    if (!paramSchema) return next();
+
+    const schemaKeys = Object.getOwnPropertyNames(paramSchema);
+    if (!schemaKeys.length) return next();
+
+    // eslint-disable-next-line array-callback-return
+    schemaKeys.some(item =&gt; {
+      const validObj = paramMap[item];
+
+      const validResult = paramSchema[item].validate(validObj, {
+        allowUnknown: true
+      });
+
+      if (validResult.error) {
+        ctx.utils.assert(false, ctx.utils.throwError(9998, validResult.error.message));
+      }
+    });
+    await next();
+  };
+};
+</code></pre></div><p>这次这个参数校验中间件我们不在 <code>app/middlewares/index.js</code> 中使用， 我们改造下 <code>app/router/index.js</code>:</p> <div class="language- extra-class"><pre class="language-text"><code>// const koaRouter = require('koa-router');
+// const router = new koaRouter();
+
+// const routeList = require('./routes');
+
+
+// routeList.forEach(item =&gt; {
+//   const { method, path, controller } = item;
+//   router[method](path, controller);
+// });
+
+// module.exports = router;
+
+const koaRouter = require('koa-router');
+const router = new koaRouter();
+
+const routeList = require('./routes');
+const paramValidator = require('../middlewares/paramValidator');
+
+routeList.forEach(item =&gt; {
+  const { method, path, controller, valid } = item;
+  router[method](path, paramValidator(valid), controller);
+});
+
+module.exports = router;
+</code></pre></div><p><code>koa-router</code> 是可以添加多个路由级中间件的，我们将参数校验放在这里处理。然后我们添加新的目录 schema，用来存放参数校验部分的代码，添加两个文件:</p> <ul><li><code>app/schema/index.js</code></li></ul> <div class="language- extra-class"><pre class="language-text"><code>const scmTest = require('./test');
+
+module.exports = {
+  scmTest
+};
+</code></pre></div><ul><li><code>app/schema/test.js</code></li></ul> <div class="language- extra-class"><pre class="language-text"><code>const Joi = require('@hapi/joi');
+
+const list = {
+  query: Joi.object({
+    name: Joi.string().required(),
+    age: Joi.number().required()
+  })
+};
+
+module.exports = {
+  list
+};
+</code></pre></div><p>我们可以看到在 <code>app/router/index.js</code> 中一段代码:</p> <div class="language- extra-class"><pre class="language-text"><code>  const { method, path, controller, valid } = item;
+  router[method](path, paramValidator(valid), controller);
+</code></pre></div><p>这里需要一个<code>valid</code>属性来校验参数，所以我们接着改造 <code>app/router/routes.js</code> 文件如下:</p> <div class="language- extra-class"><pre class="language-text"><code>const { test } = require('../controllers');
+const { scmTest } = require('../schema/index')
+
+const routes = [
+  {
+    //  测试
+    method: 'get',
+    path: '/a',
+    valid: scmTest.list,
+    controller: test.list
+  }
+];
+
+module.exports = routes;
+</code></pre></div><p>现在我们修改 controller 中的代码，将我们自己手动写的参数校验去掉，改成:</p> <div class="language- extra-class"><pre class="language-text"><code>const list = async ctx =&gt; {
+  const { name, age } = ctx.request.query
+  ctx.body = name + age
+}
+</code></pre></div><p>这里我们没有对参数进行校验了，我们尝试发送请求看看结果:<img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>在请求参数中，我们把 <code>age</code> 这个参数去掉了，可以看到返回结果是我们预期的，到这为止参数校验也搞定了，<code>@hapi/joi</code> 更多的使用方法请 查看文档</p> <h2 id="数据库操作"><a href="#数据库操作" class="header-anchor">#</a> 数据库操作</h2> <p>当涉及到数据库操作时，我们可以在 app 下再新增一个 <code>service</code> 目录。将数据库操作从 <code>controller</code> 目录下分离出来放在 <code>service</code> 目录下，两个目录各司其职，一个专注业务处理，一个专注数据库层面的增删改查。另外再添加一个 model 目录，用来定义数据库表结构，具体的这里暂时不介绍了。</p> <h2 id="目前为止目录结构"><a href="#目前为止目录结构" class="header-anchor">#</a> 目前为止目录结构</h2> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <h2 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h2> <p>其他更多的公共逻辑都可以放在中间件层面去做，例如登录校验、权限校验等。到目前为止上面细节上还有很多问题没来得及做处理，比如统一返回格式的那个中间件，如果返回的是个文件其实会有问题，后期还会对很多细节进行优化。</p> <p>上面是我个人总结的实践，有不合理的地方或建议大家帮忙指出来，共同学习交流进步</p> <h2 id="参考资料"><a href="#参考资料" class="header-anchor">#</a> 参考资料</h2> <ul><li><p>完整代码:</p> <p>https://github.com/JustGreenHand/koa-app</p></li></ul></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">8/10/2021, 2:19:21 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/node/1-koa/koa2.html" class="prev">
+        Koa2
+      </a></span> <span class="next"><a href="/node/1-koa/搞懂koa2原理.html">
+        一文搞懂 koa2 核心原理
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.4e7306f2.js" defer></script><script src="/assets/js/2.089a9349.js" defer></script><script src="/assets/js/41.7deb9d44.js" defer></script>
+  </body>
+</html>

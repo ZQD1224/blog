@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>工作中会使用到的数据结构和算法 | duangdong的blog</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,js,vuepress,leetcode,react,react进阶,css,js进阶,react性能优化,js设计模式">
+    
+    <link rel="preload" href="/assets/css/0.styles.7d57e154.css" as="style"><link rel="preload" href="/assets/js/app.4e7306f2.js" as="script"><link rel="preload" href="/assets/js/2.089a9349.js" as="script"><link rel="preload" href="/assets/js/9.6a8418f6.js" as="script"><link rel="prefetch" href="/assets/js/10.e4129a75.js"><link rel="prefetch" href="/assets/js/11.2979228c.js"><link rel="prefetch" href="/assets/js/12.967032b4.js"><link rel="prefetch" href="/assets/js/13.382c0126.js"><link rel="prefetch" href="/assets/js/14.4462e192.js"><link rel="prefetch" href="/assets/js/15.1a2ad78e.js"><link rel="prefetch" href="/assets/js/16.d8aabfc4.js"><link rel="prefetch" href="/assets/js/17.b1b14ced.js"><link rel="prefetch" href="/assets/js/18.6381bd07.js"><link rel="prefetch" href="/assets/js/19.e1d88862.js"><link rel="prefetch" href="/assets/js/20.9fc12d0b.js"><link rel="prefetch" href="/assets/js/21.32087fe8.js"><link rel="prefetch" href="/assets/js/22.569c0b70.js"><link rel="prefetch" href="/assets/js/23.904cd88f.js"><link rel="prefetch" href="/assets/js/24.2b2f4bb6.js"><link rel="prefetch" href="/assets/js/25.73f4e989.js"><link rel="prefetch" href="/assets/js/26.9f800f35.js"><link rel="prefetch" href="/assets/js/27.d4639879.js"><link rel="prefetch" href="/assets/js/28.0f698c22.js"><link rel="prefetch" href="/assets/js/29.baec863c.js"><link rel="prefetch" href="/assets/js/3.56aa1c74.js"><link rel="prefetch" href="/assets/js/30.9169b2e7.js"><link rel="prefetch" href="/assets/js/31.8f3b396f.js"><link rel="prefetch" href="/assets/js/32.fa69df06.js"><link rel="prefetch" href="/assets/js/33.37897fde.js"><link rel="prefetch" href="/assets/js/34.e4c930ca.js"><link rel="prefetch" href="/assets/js/35.ac93870f.js"><link rel="prefetch" href="/assets/js/36.2673cc72.js"><link rel="prefetch" href="/assets/js/37.60009020.js"><link rel="prefetch" href="/assets/js/38.79171963.js"><link rel="prefetch" href="/assets/js/39.6938b87f.js"><link rel="prefetch" href="/assets/js/4.ef07e727.js"><link rel="prefetch" href="/assets/js/40.8e6ace96.js"><link rel="prefetch" href="/assets/js/41.7deb9d44.js"><link rel="prefetch" href="/assets/js/42.7f205067.js"><link rel="prefetch" href="/assets/js/43.8ebc2622.js"><link rel="prefetch" href="/assets/js/44.499d3895.js"><link rel="prefetch" href="/assets/js/45.137c225a.js"><link rel="prefetch" href="/assets/js/46.999fc668.js"><link rel="prefetch" href="/assets/js/47.b2a407fe.js"><link rel="prefetch" href="/assets/js/48.f7742dc5.js"><link rel="prefetch" href="/assets/js/49.01a0c908.js"><link rel="prefetch" href="/assets/js/5.852455a1.js"><link rel="prefetch" href="/assets/js/50.a6966cb3.js"><link rel="prefetch" href="/assets/js/51.3db01d61.js"><link rel="prefetch" href="/assets/js/52.5f0256d1.js"><link rel="prefetch" href="/assets/js/53.03ae4d1b.js"><link rel="prefetch" href="/assets/js/54.58f05fcf.js"><link rel="prefetch" href="/assets/js/55.cd5aeb9f.js"><link rel="prefetch" href="/assets/js/56.3cf754d6.js"><link rel="prefetch" href="/assets/js/6.c9125bc1.js"><link rel="prefetch" href="/assets/js/7.6efc051b.js"><link rel="prefetch" href="/assets/js/8.af4d5805.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.7d57e154.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/leetcode/" class="nav-link">
+  Leetcode
+</a></div><div class="nav-item"><a href="/algorithm/" class="nav-link router-link-active">
+  数据结构
+</a></div><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  Node
+</a></div><div class="nav-item"><a href="https://react.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://qa.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  QA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人链接" class="dropdown-title"><span class="title">个人链接</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人链接" class="mobile-dropdown-title"><span class="title">个人链接</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://essay.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  随笔
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="http://qdzhou.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  博客
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://www.yuque.com/xdxmvy" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  语雀
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/ZQD1224/note" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/leetcode/" class="nav-link">
+  Leetcode
+</a></div><div class="nav-item"><a href="/algorithm/" class="nav-link router-link-active">
+  数据结构
+</a></div><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  Node
+</a></div><div class="nav-item"><a href="https://react.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://qa.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  QA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人链接" class="dropdown-title"><span class="title">个人链接</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人链接" class="mobile-dropdown-title"><span class="title">个人链接</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://essay.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  随笔
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="http://qdzhou.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  博客
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://www.yuque.com/xdxmvy" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  语雀
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/ZQD1224/note" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/algorithm/" aria-current="page" class="sidebar-link">算法相关</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>前端实际项目使用</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/algorithm/前端实际项目使用/前端团队工作中会使用到的数据结构和算法.html" class="active sidebar-link">工作中会使用到的数据结构和算法</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/algorithm/前端实际项目使用/前端团队工作中会使用到的数据结构和算法.html#背景" class="sidebar-link">背景</a></li><li class="sidebar-sub-header"><a href="/algorithm/前端实际项目使用/前端团队工作中会使用到的数据结构和算法.html#数据结构" class="sidebar-link">数据结构</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/algorithm/前端实际项目使用/前端团队工作中会使用到的数据结构和算法.html#栈" class="sidebar-link">栈</a></li><li class="sidebar-sub-header"><a href="/algorithm/前端实际项目使用/前端团队工作中会使用到的数据结构和算法.html#队列" class="sidebar-link">队列</a></li><li class="sidebar-sub-header"><a href="/algorithm/前端实际项目使用/前端团队工作中会使用到的数据结构和算法.html#链表" class="sidebar-link">链表</a></li><li class="sidebar-sub-header"><a href="/algorithm/前端实际项目使用/前端团队工作中会使用到的数据结构和算法.html#树" class="sidebar-link">树</a></li><li class="sidebar-sub-header"><a href="/algorithm/前端实际项目使用/前端团队工作中会使用到的数据结构和算法.html#图" class="sidebar-link">图</a></li></ul></li><li class="sidebar-sub-header"><a href="/algorithm/前端实际项目使用/前端团队工作中会使用到的数据结构和算法.html#算法" class="sidebar-link">算法</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/algorithm/前端实际项目使用/前端团队工作中会使用到的数据结构和算法.html#lru" class="sidebar-link">LRU</a></li></ul></li></ul></li></ul></section></li><li><a href="/algorithm/动态规划.html" class="sidebar-link">前端也能学算法：由浅入深讲解动态规划</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>排序</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/algorithm/由浅入深讲解贪心算法.html" class="sidebar-link">前端也能学算法：由浅入深讲解贪心算法</a></li><li><a href="/algorithm/贪心.html" class="sidebar-link">前端也能学算法：由浅入深讲解贪心算法</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="工作中会使用到的数据结构和算法"><a href="#工作中会使用到的数据结构和算法" class="header-anchor">#</a> 工作中会使用到的数据结构和算法</h1> <blockquote><p><a href="https://mp.weixin.qq.com/s/lgw7-EBaQybawD2143fQUA" target="_blank" rel="noopener noreferrer">https://mp.weixin.qq.com/s/lgw7-EBaQybawD2143fQUA<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h2 id="背景"><a href="#背景" class="header-anchor">#</a> 背景</h2> <p>我们日常的开发工作避免不了和数据打交道。展示数据时，接口返回的数据结构可能没办法直接拿来使用，需要做一层转换；保存数据时，通过表单拿到的数据结构和接口定义的数据结构也可能不一致，需要做一层转换；还有一些业务场景本身的需要，需要对数据的逻辑校验等。因此避免不了会使用到一些常用的数据结构和算法。本文主要是讨论在前端开发工作中，可能会使用到的数据结构和算法。</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/ndgH50E7pIoAvJlib4f4lvae67jul6t2D9n3icE6sngDk9JxiaQSiaSKUZgGibCDkzhqCsC6WAicl8RlQjiboYzFFSOeQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">image.png</p> <h2 id="数据结构"><a href="#数据结构" class="header-anchor">#</a> 数据结构</h2> <h3 id="栈"><a href="#栈" class="header-anchor">#</a> 栈</h3> <p>栈是一种特殊的线性表。它的特点是，只能在表的一端操作。可以操作的端称为栈顶，不可以操作的另一端称为栈底。栈的特性：先进后出。</p> <h5 id="原理"><a href="#原理" class="header-anchor">#</a> 原理</h5> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/ndgH50E7pIoAvJlib4f4lvae67jul6t2DPK0iafmGq86E9eXRy7TibwQPfLYgicUfCNPv8DMziaLESR71x9mZDTxLuQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>生活中的例子：蒸馒头的笼屉、羽毛球筒。</p> <h5 id="实现"><a href="#实现" class="header-anchor">#</a> 实现</h5> <p>我们可以使用 JS 来模拟栈的功能。从数据存储的方式来看，可以使用数组存储数据，也可以使用链表存储数据。因为数组是最简单的方式，所以这里是用数组的方式来实现栈。</p> <p>栈的操作包括入栈、出栈、清空、获取栈顶元素、获取栈的大小等。</p> <div class="language- extra-class"><pre class="language-text"><code>class Stack {
+
+    constructor() {
+
+        // 存储数据
+
+        this.items = [];
+
+    }
+
+    push(item) {
+
+        // 入栈
+
+        this.items.push(item);
+
+    }
+
+    pop() {
+
+        // 出栈
+
+        return this.items.pop();
+
+    }
+
+    top() {
+
+        // 获取栈顶元素
+
+        return this.items[this.items.length - 1];
+
+    }
+
+    clear() {
+
+        // 清空栈
+
+        this.items = [];
+
+    }
+
+    size() {
+
+        // 获取栈的大小
+
+        return this.items.length;
+
+    }
+
+    isEmpty() {
+
+        // 判断栈是否为空
+
+        return this.items.length === 0;
+
+    }
+
+}
+</code></pre></div><h5 id="应用"><a href="#应用" class="header-anchor">#</a> 应用</h5> <ol><li>判断括号是否匹配</li></ol> <p>方法一思路分析：</p> <ul><li>首先从头到尾遍历整个字符串；</li> <li>当遇到字符&quot;(&quot;则入栈，遇到字符&quot;)&quot;则出栈；</li> <li>出栈时，如果栈已经为空，则返回 false；</li> <li>当字符串遍历完毕以后，判断栈是否为空。</li></ul> <p>方法二思路分析：</p> <ul><li>声明变量 num 为 0，并从头到尾遍历整个字符串；</li> <li>当遇到字符&quot;(&quot;则 num 加 1，遇到字符&quot;)&quot;num 减 1；</li> <li>在遍历的过程中，当 num 减 1 时，num 的值已经为 0 则返回 false；</li> <li>当字符串遍历完毕以后，判断 num 是否为 0。</li></ul> <div class="language- extra-class"><pre class="language-text"><code>// 方式一：栈
+
+function isPairing(str = '') {
+
+    const stack = new Stack();
+
+    for(let i of str) {
+
+        if (i === '(') {
+
+            stack.push(i);
+
+        } else if (i === ')') {
+
+            if (stack.isEmpty()) {
+
+                return false;
+
+            } else {
+
+                stack.pop();
+
+            }
+
+        }
+
+    }
+
+    return stack.size() === 0;
+
+}
+
+
+
+// 方式二：计数
+
+function isPairing(str = '') {
+
+    let num = 0;
+
+    for(let i of str) {
+
+        if (i === '(') {
+
+            num++;
+
+        } else if (i === ')') {
+
+            if (num === 0) {
+
+                return false;
+
+            } else {
+
+                num--;
+
+            }
+
+        }
+
+    }
+
+    return num === 0;
+
+}
+</code></pre></div><ol><li>判断 HTML 标签是否匹配</li></ol> <p>思路分析：</p> <ul><li><p>声明变量 stack、nodes；并从头遍历 HTML 字符串，查找字符&quot;&lt;&quot;的位置；</p></li> <li><p>如果字符&quot;&lt;&quot;的位置等于 0：</p></li> <li><ul><li>则继续尝试匹配 HTML 结束标签，匹配成功并且与栈顶的标签名称一致，则弹出栈顶；否则报错；</li> <li>匹配 HTML 结束标签失败以后，则尝试匹配开始标签的起始部分，然后循环匹配标签属性对，最后匹配开始标签的结束部分。匹配完成以后，将匹配到的标签压入栈顶；并构建 node 节点数；</li></ul></li> <li><p>如果字符&quot;&lt;&quot;的位置大于 0：</p></li> <li><ul><li>则 html.slice(0, pos)，创建文本节点。</li></ul></li></ul> <div class="language- extra-class"><pre class="language-text"><code>function parseHtml(html = '') {
+
+    const startIndex = 0;
+
+    const endIndex = 0;
+
+    // 匹配标签&lt;div&gt;、&lt;br/&gt;等标签的开始部分&quot;&lt;div、&lt;br&quot;
+
+    const startTagOpen = /^&lt;([a-zA-Z\d]+)/;
+
+    // 匹配标签&lt;div&gt;、&lt;br/&gt;等标签的闭合部分&quot;&gt;、/&gt;&quot;
+
+    const startTagClose = /^\s*(/?)&gt;/;
+
+    // 匹配属性
+
+    const attribute = /^\s*([\w-]+)(?:=&quot;([^&quot;]*)&quot;)?\s*/;
+
+    // 匹配闭合标签，例如&lt;/div&gt;、&lt;/p&gt;
+
+    const endTag = /^&lt;/([a-zA-Z\d]+)&gt;/;
+
+
+
+    const stack = [];
+
+    const nodes = [];
+
+
+
+    while(html) {
+
+        // 查找&lt;的起始位置
+
+        const index = html.indexOf('&lt;');
+
+        if (index === 0) {
+
+            // 先匹配整体结束标签，例如&lt;/div&gt;、&lt;/p&gt;
+
+            let endTagMatch = html.match(endTag);
+
+            if (endTagMatch) {
+
+                if (stack[stack.length - 1]) {
+
+                    if (stack[stack.length - 1].tag === endTagMatch[1]) {
+
+                        // 出栈
+
+                        stack.pop();
+
+                        advanced(endTagMatch[0].length);
+
+                        continue;
+
+                    } else {
+
+                        throw new Error(`起始标签和结束标签不匹配: 起始标签（${stack[stack.length - 1].tag}），结束标签（${endTagMatch[0]}）`);
+
+                    }
+
+                } else {
+
+                    throw new Error(`${endTagMatch[0]}没有起始标签`);
+
+                }
+
+            }
+
+
+
+            // 然后匹配起始标签的开始部分，例如&lt;div&gt;的&lt;div、&lt;p&gt;的&lt;p、&lt;br/&gt;的&lt;br
+
+            let startTagOpenMatch = html.match(startTagOpen);
+
+            if (startTagOpenMatch) {
+
+                const node = {
+
+                    nodeType: 1,
+
+                    tag: startTagOpenMatch[1],
+
+                    attrs: [],
+
+                    children: [],
+
+                };
+
+                advanced(startTagOpenMatch[0].length);
+
+                let end, attr;
+
+                // 匹配标签属性列表
+
+                while(!(end = html.match(startTagClose)) &amp;&amp; (attr = html.match(attribute))) {
+
+                    advanced(attr[0].length);
+
+                    node.attrs.push({
+
+                        name: attr[1],
+
+                        value: attr[2],
+
+                    });
+
+                }
+
+
+
+                // 匹配起始标签的结束部分
+
+                if (end) {
+
+                    if (stack.length === 0) {
+
+                        nodes.push(node);
+
+                    } else {
+
+                        stack[stack.length - 1].children.push(node);
+
+                    }
+
+
+
+                    // 自闭和标签不加入栈中
+
+                    if (end[1] !== '/') {
+
+                        stack.push(node);
+
+                    }
+
+
+
+                    advanced(end[0].length);
+
+                }
+
+            }
+
+        } else {
+
+            // 文本
+
+            const node = {
+
+                nodeType: 3,
+
+                textContent: html.slice(0, index)
+
+            };
+
+            if (stack.length === 0) {
+
+                nodes.push(node);
+
+            } else {
+
+                stack[stack.length - 1].children.push(node);
+
+            }
+
+            advanced(node.textContent.length);
+
+        }
+
+    }
+
+
+
+    function advanced(n) {
+
+        html = html.substring(n);
+
+    }
+
+    return nodes;
+
+}
+
+parseHtml('&lt;div id=&quot;test&quot; class=&quot;a b&quot;&gt;&lt;/div&gt;');
+
+parseHtml('&lt;div id=&quot;test&quot; class=&quot;a b&quot;&gt;Hello World&lt;/div&gt;');
+
+parseHtml('开始&lt;div id=&quot;test&quot; class=&quot;a b&quot;&gt;Hello World&lt;/div&gt;');
+
+parseHtml('&lt;div id=&quot;test&quot; class=&quot;a b&quot;&gt;&lt;br class=&quot;br&quot; /&gt;Hello World&lt;/div&gt;');
+
+parseHtml('&lt;/div&gt;');
+
+parseHtml('&lt;div&gt;&lt;/p&gt;');
+</code></pre></div><ol><li>版本号比较大小</li></ol> <p>思路分析：</p> <ul><li>版本号 v1、v2 按照符号&quot;.&quot;分割成数组，从左右依次进行大小比较；</li> <li>v1 大于 v2 返回 1，v2 小于 v2 返回-1，v1 等于 v2 返回 0。</li></ul> <div class="language- extra-class"><pre class="language-text"><code>/*
+
+    比较版本号大小
+
+    v1：第一个版本号
+
+    v2：第二个版本号
+
+    如果版本号相等，返回 0, * 如果第一个版本号低于第二个，返回 -1，否则返回 1.
+
+*/
+
+function compareVersion(v1, v2) {
+
+    if (!v1 &amp;&amp; !v2) return 0;
+
+    if (!v1) return -1;
+
+    if (!v2) return 1;
+
+    const v1Stack = v1.split('.');
+
+    const v2Stack = v2.split('.');
+
+    const maxLen = Math.max(v1Stack.length, v2Stack.length);
+
+    for(let i = 0; i &lt; maxLen; i++) {
+
+        // 必须转整，否则按照字符顺序比较大小
+
+        const prevVal = ~~v1Stack[i];
+
+        const currVal = ~~v2Stack[i];
+
+        if (prevVal &gt; currVal) {
+
+            return 1;
+
+        }
+
+        if (prevVal &lt; currVal) {
+
+            return -1;
+
+        }
+
+    }
+
+    return 0;
+
+}
+
+console.log(compareVersion(&quot;2.2.1&quot;, &quot;2.2.01&quot;)); // 0
+
+console.log(compareVersion(&quot;2.2.1&quot;, &quot;2.2.0&quot;)); // 1
+
+console.log(compareVersion(&quot;2.2.1&quot;, &quot;2.1.9&quot;)); // 1
+
+console.log(compareVersion(&quot;2.2&quot;, &quot;2.1.1&quot;)); // 1
+
+console.log(compareVersion(&quot;2.2&quot;, &quot;2.2.1&quot;)); // -1
+
+console.log(compareVersion(&quot;2.2.3.4.5.6&quot;, &quot;2.2.2.4.5.12&quot;)); // 1
+
+console.log(compareVersion(&quot;2.2.3.4.5.6&quot;, &quot;2.2.3.4.5.12&quot;)); // -1
+</code></pre></div><h5 id="用途"><a href="#用途" class="header-anchor">#</a> 用途</h5> <ul><li>Vue 模板编译将模板字符串转换成 AST。</li> <li>自动更新最新版本的 NPM 包。</li> <li>函数执行上下文栈。</li></ul> <h3 id="队列"><a href="#队列" class="header-anchor">#</a> 队列</h3> <p>队列也是一种特殊的线性表，它的特点是，只能在表的一端进行删除操作，而在表的另一点进行插入操作。可以进行删除操作的端称为<strong>队首</strong>，而可以进行插入操作的端称为<strong>队尾</strong>。删除一个元素称为<strong>出队</strong>，插入一个元素称为<strong>入队</strong>。和栈一样，队列也是一种操作受限制的线性表。队列的特性：先进先出 (FIFO，First-In-First-Out)。</p> <h5 id="原理-2"><a href="#原理-2" class="header-anchor">#</a> 原理</h5> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/ndgH50E7pIoAvJlib4f4lvae67jul6t2D3KqKIEtNdu1SuOmnILm5HyHJErlFEBOicXsUqGTHmV0Y6Vu8lGGWAHQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>生活中的例子：排队买东西。</p> <h5 id="实现-2"><a href="#实现-2" class="header-anchor">#</a> 实现</h5> <p>我们也可以使用 JS 来模拟队列的功能。从数据存储的方式来看，可以使用数组存储数据，也可以使用链表存储数据。因为数组是最简单的方式，所以这里是用数组的方式来实现队列。</p> <p>队列的操作包括入队、出队、清空队列、获取队头元素、获取队列的长度等。</p> <div class="language- extra-class"><pre class="language-text"><code>class Queue {
+
+  constructor() {
+
+    // 存储数据
+
+    this.items = [];
+
+  }
+
+  enqueue(item) {
+
+    // 入队
+
+    this.items.push(item);
+
+  }
+
+  dequeue() {
+
+    // 出队
+
+    return this.items.shift();
+
+  }
+
+  head() {
+
+    // 获取队首的元素
+
+    return this.items[0];
+
+  }
+
+  tail() {
+
+    // 获取队尾的元素
+
+    return this.items[this.items.length - 1];
+
+  }
+
+  clear() {
+
+    // 清空队列
+
+    this.items = [];
+
+  }
+
+  size() {
+
+    // 获取队列的长度
+
+    return this.items.length;
+
+  }
+
+  isEmpty() {
+
+    // 判断队列是否为空
+
+    return this.items.length === 0;
+
+  }
+
+}
+</code></pre></div><h5 id="应用-2"><a href="#应用-2" class="header-anchor">#</a> 应用</h5> <ol><li>约瑟夫环问题</li></ol> <p>有一个数组存放了 100 个数据 0-99，要求每隔两个数删除一个数，到末尾时再循环至开头继续进行，求最后一个被删除的数字。</p> <p><strong>思路分析</strong></p> <ul><li>创建队列，将 0 到 99 的数字入队；</li> <li>循环队列，依次出列队列中的数字，对当前出队的数字进行计数 index + 1；</li> <li>判断当前出列的 index % 3 是否等于 0，如果不等于 0 则入队；</li> <li>直到队列的长度为 1，退出循环，返回队列中的数字。</li></ul> <div class="language- extra-class"><pre class="language-text"><code>function ring(arr) {
+
+    const queue = new Queue();
+
+    arr.forEach(v =&gt; queue.enqueue(v));
+
+
+
+    let index = 0;
+
+    while(queue.size() &gt; 1) {
+
+        const item = queue.dequeue();
+
+        if (++index % 3 !== 0) {
+
+            queue.enqueue(item);
+
+        }
+
+    }
+
+    return queue.head();
+
+}
+</code></pre></div><ol><li>斐波那契数列</li></ol> <p>斐波那契数列（Fibonacci sequence），又称黄金分割数列，因数学家莱昂纳多·斐波那契（Leonardoda Fibonacci）以兔子繁殖为例子而引入，故又称为“兔子数列”，指的是这样一个数列：0、1、1、2、3、5、8、13、21、34、……在数学上，斐波那契数列以如下被以递推的方法定义：<em>F</em>(0)=0，<em>F</em>(1)=1, <em>F</em>(n)=<em>F</em>(n - 1)+<em>F</em>(n - 2)（<em>n</em> ≥ 2，<em>n</em> ∈ N*）。</p> <div class="language- extra-class"><pre class="language-text"><code>function fiboSequence(num) {
+
+    if (num &lt; 2) return num;
+
+    const queue = [];
+
+    queue.push(0);
+
+    queue.push(1);
+
+    for(let i = 2; i &lt; num; i++) {
+
+        const len = queue.length;
+
+        queue.push(queue[len - 2] + queue[len  - 1]);
+
+    }
+
+    return queue;
+
+}
+</code></pre></div><ol><li>打印杨辉三角</li></ol> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/ndgH50E7pIoAvJlib4f4lvae67jul6t2DRk4tFIdyBa443wJvtTRsE6H5rlmvNfb2yevDzguMzVGoU8DIWQRYvQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>思路分析：</p> <ul><li>通过观察发现，三角中的每一行数据都依赖于上一行的数据；</li> <li>我们首先创建队列 queue，用于存储每一行的数据，供下一行数据使用；</li> <li>然后初始化第一行的数据 1 入队，这里需要两个 for 循环嵌套，外层的 for 循环决定最终打印的总行数，内层的 for 循环生成每行的数据；</li> <li>在生成当前行的数据时，将队列中的数据源依次出队，然后将新生成的数据入队；并记录当前出队的数据，供生成新数据使用。</li></ul> <div class="language- extra-class"><pre class="language-text"><code>function printYangHui(num) {
+
+    const queue = [];
+
+    // 存储第一行数据
+
+    queue.push(1);
+
+    for(let i = 1; i &lt;= num; i++) {
+
+        let rowArr = [];
+
+        // 填充空格
+
+        for(let j = 0; j &lt; Math.floor((num - i) / 2); j++) {
+
+            rowArr.push('');
+
+        }
+
+        let prev = 0;
+
+        for(let j = 0; j &lt; i; j++) {
+
+            const num = queue.shift();
+
+            queue.push(prev + num);
+
+            rowArr.push(num);
+
+            prev = num;
+
+        }
+
+        queue.push(1);
+
+        console.log(rowArr.join(' '));
+
+    }
+
+}
+
+printYangHui(10);
+</code></pre></div><h5 id="用途-2"><a href="#用途-2" class="header-anchor">#</a> 用途</h5> <ol><li>实现洋葱模型</li></ol> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/ndgH50E7pIoAvJlib4f4lvae67jul6t2DT48ccIXsiclvBbp45GXndGHiaR2oLS1mqef9eYkqPHmicVicdyic51P1OXw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/ndgH50E7pIoAvJlib4f4lvae67jul6t2DTxENib7vlS2C84RRF4UWzftMfHoao2icmKNSNFSHeVdn2Ut1OoyRTjUg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>完善代码，实现输出 1、2、3。</p> <div class="language- extra-class"><pre class="language-text"><code>function createApp(){
+
+  return {
+
+    use(fn){},
+
+    run(){},
+
+  }
+
+}
+
+const app = createApp();
+
+
+
+app.use((next)=&gt;{
+
+  setTimeout(function(){
+
+    next();
+
+  })
+
+  console.log(new Date() ,'1');
+
+})
+
+app.use((next)=&gt;{
+
+  console.log(new Date() ,'2');
+
+  next();
+
+})
+
+app.use((next)=&gt;{
+
+  console.log(new Date() ,'3');
+
+  next();
+
+})
+
+app.run();
+</code></pre></div><ol><li>消息队列</li></ol> <h3 id="链表"><a href="#链表" class="header-anchor">#</a> 链表</h3> <p>由若干个结点链结成一个链表，称之为链式存储结构。</p> <p><strong>链表和数组的区别</strong></p> <p>链表和数组都可以存储多个数据，那么链表和数组有什么区别呢？</p> <p>数组需要一块连续的内存空间来存储数据，对内存的要求比较高。而链表却相反，它并不需要一块连续的内存空间。链表是通过指针将一组零散的内存块串联在一起。</p> <p>相比数组，链表是一种稍微复杂一点的数据结构。两者没有好坏之分，各有各的优缺点。</p> <p>由于内存存储特性，数组可以实现快速的查找元素，但是在插入和删除时就需要移动大量的元素。原因就在于相邻元素在内存中的位置也是紧挨着的，中间没有空隙，因此就无法快速添加元素。而当删除后，内存空间中就会留出空隙，自然需要弥补。</p> <h5 id="分类"><a href="#分类" class="header-anchor">#</a> 分类</h5> <ul><li>单向链表</li></ul> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/ndgH50E7pIoAvJlib4f4lvae67jul6t2D8jf3qJiaQYWHPF0ib17IglU5eek0MneDDMfmZlFGZY7QGC17JFkNcgLg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <ul><li>双向链表</li></ul> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/ndgH50E7pIoAvJlib4f4lvae67jul6t2DoGnd76Tuq4coiaTkGq0yuBzwx4XdvY5GXkwDkpEqGeGYc08Nx63vfDg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <ul><li>单向循环链表</li></ul> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <ul><li>双向循环链表</li></ul> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <h5 id="实现-3"><a href="#实现-3" class="header-anchor">#</a> 实现</h5> <div class="language- extra-class"><pre class="language-text"><code>const Node = function (data) {
+
+    this.data = data;
+
+    this.next = null;
+
+}
+
+
+
+const node1 = new Node(1);
+
+const node2 = new Node(2);
+
+const node3 = new Node(3);
+
+
+
+node1.next = node2;
+
+node2.next = node3;
+</code></pre></div><h5 id="应用-3"><a href="#应用-3" class="header-anchor">#</a> 应用</h5> <ol><li>环形链表</li></ol> <p>给定一个链表，如何判断链表中是否有环？</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/ndgH50E7pIoAvJlib4f4lvae67jul6t2DQ2bQnZdgwHUiaHdSOyvcicrEmkE7mPXzPDsYhMrHZ2NXWIa0WicWZiam7Q/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>思路分析：</p> <ol><li>首先创建两个指针 1 和 2，同时指向这个链表的头节点。然后开始一个大循环，在循环体中，让指针 1 每次向下移动一个节点，让指针 2 每次向下移动两个节点，然后比较两个指针指向的节点是否相同。如果相同，则判断出链表有环，如果不同，则继续下一次循环。</li> <li>例如链表 A-&gt;B-&gt;C-&gt;D-&gt;B-&gt;C-&gt;D，两个指针最初都指向节点 A，进入第一轮循环，指针 1 移动到了节点 B，指针 2 移动到了 C。第二轮循环，指针 1 移动到了节点 C，指针 2 移动到了节点 B。第三轮循环，指针 1 移动到了节点 D，指针 2 移动到了节点 D，此时两指针指向同一节点，判断出链表有环。</li> <li>假设从链表头节点到入环点的距离是 D，链表的环长是 S。那么循环会进行 S 次，可以简单理解为 O（N）。除了两个指针以外，没有使用任何额外存储空间，所以空间复杂度是 O（1）。</li></ol> <div class="language- extra-class"><pre class="language-text"><code>const Node = function (data) {
+
+    this.data = data;
+
+    this.next = null;
+
+}
+
+
+
+const nodeA = new Node('A');
+
+const nodeB = new Node('B');
+
+const nodeC = new Node('C');
+
+const nodeD = new Node('D');
+
+const nodeE = new Node('E');
+
+nodeA.next = nodeB;
+
+nodeB.next = nodeC;
+
+nodeC.next = nodeD;
+
+nodeD.next = nodeE;
+
+nodeE.next = nodeC;
+
+
+
+function isCircularLinkedList(head) {
+
+    if (head === null || head.next === null) {
+
+        return false;
+
+    }
+
+    let point1 = head;
+
+    let point2 = head;
+
+    do {
+
+        point1 = point1.next;
+
+        point2 = point2.next &amp;&amp; point2.next.next;
+
+    } while(point1 &amp;&amp; point2 &amp;&amp; point1 !== point2);
+
+    if (point1 === point2) {
+
+        return true;
+
+    }
+
+    return false;
+
+}
+
+console.log(isCircularLinkedList(nodeA));
+</code></pre></div><ol><li>相交链表</li></ol> <p>判断两个单链表是否相交并求出相交的第一结点。</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>思路分析：</p> <ol><li>两个没有环的链表如果是相交于某一结点，如上图所示，这个结点后面都是共有的。所以如果两个链表相交，那么两个链表的尾结点的地址也是一样的。程序实现时分别遍历两个单链表，直到尾结点。判断尾结点地址是否相等即可。时间复杂度为 O(L1+L2)。</li> <li>如何找到第一个相交结点？判断是否相交的时候，记录下两个链表的长度，算出长度差 len，接着先让较长的链表遍历 len 个长度，然后两个链表同时遍历，判断是否相等，如果相等，就是第一个相交的结点。</li></ol> <div class="language- extra-class"><pre class="language-text"><code>function intersectNode(head1, head2) {
+
+  if (head1 &amp;&amp; head2) {
+
+    // 计算链表的长度
+
+    let len1 = 0, p = head1;
+
+    let len2 = 0, q = head2;
+
+    while(p.next) {
+
+      len1++;
+
+      p = p.next;
+
+    }
+
+    while(q.next) {
+
+      len2++;
+
+      q = q.next;
+
+    }
+
+    if (p === q) {
+
+      // p指向短链，q指向长链
+
+      let len = 0;
+
+      if (len1 &gt; len2) {
+
+        len = len1 - len2;
+
+        p = head2;
+
+        q = head1;
+
+      } else {
+
+        len = len2 - len1;
+
+        p = head1;
+
+        q = head2;
+
+      }
+
+      while(len &gt; 0) {
+
+        len--;
+
+        q = q.next;
+
+      }
+
+      while(p &amp;&amp; q &amp;&amp; p !== q) {
+
+        p = p.next;
+
+        q = q.next;
+
+      }
+
+      return p;
+
+    }
+
+  }
+
+  return null;
+
+}
+
+
+
+const Node = function (data) {
+
+  this.data = data;
+
+  this.next = null;
+
+}
+
+
+
+const nodeA = new Node('A');
+
+const nodeB = new Node('B');
+
+const nodeC = new Node('C');
+
+const node1 = new Node('1');
+
+const node2 = new Node('2');
+
+const node3 = new Node('3');
+
+const nodeD4 = new Node('D4');
+
+const nodeE5 = new Node('E5');
+
+nodeA.next = nodeB;
+
+nodeB.next = nodeC;
+
+nodeC.next = nodeD4;
+
+
+
+node1.next = node2;
+
+node2.next = node3;
+
+node3.next = nodeD4;
+
+nodeD4.next = nodeE5;
+
+
+
+console.log(intersectNode(nodeA, node1));
+</code></pre></div><ol><li>回文链表</li></ol> <p>请判断一个链表是否为回文链表。</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>思路分析：</p> <ol><li>从头遍历链表，同时正向和反向拼接每个链表的数据，最后比对正向和反向得到的字符串是否相等。如果相等则是回文链表；否则不是。</li></ol> <div class="language- extra-class"><pre class="language-text"><code>const Node = function (data) {
+
+  this.data = data;
+
+  this.next = null;
+
+}
+
+
+
+const node1 = new Node('A');
+
+const node2 = new Node('B');
+
+const node3 = new Node('C');
+
+const node4 = new Node('C');
+
+const node5 = new Node('B');
+
+const node6 = new Node('A');
+
+node1.next = node2;
+
+node2.next = node3;
+
+node3.next = node4;
+
+node4.next = node5;
+
+node5.next = node6;
+
+
+
+const isPalindrome = head =&gt; {
+
+    let a = '', b = '';
+
+    while(head !== null) {
+
+        a = a + head.data;
+
+        b = head.data + b;
+
+        head = head.next;
+
+    }
+
+    return a === b;
+
+}
+
+console.log(isPalindrome(node1));
+</code></pre></div><h5 id="用途-3"><a href="#用途-3" class="header-anchor">#</a> 用途</h5> <ol><li>原型链</li> <li>作用域链</li></ol> <h3 id="树"><a href="#树" class="header-anchor">#</a> 树</h3> <p>树是一种数据结构，它是由 n(n&gt;=1)个有限节点组成一个具有层次关系的集合。把它叫做“树”是因为它看起来像一棵倒挂的树，也就是说它是根朝上，而叶朝下的。</p> <h5 id="分类-2"><a href="#分类-2" class="header-anchor">#</a> 分类</h5> <ul><li>无序树：树中任意节点的子结点之间没有顺序关系，这种树称为无序树,也称为自由树。</li> <li>有序树：树中任意节点的子结点之间有顺序关系，这种树称为有序树。</li> <li>二叉树：每个节点最多含有两个子树的树称为二叉树。</li> <li>满二叉树：叶节点除外的所有节点均含有两个子树的树被称为满二叉树。</li> <li>完全二叉树：除最后一层外，所有层都是满节点，且最后一层缺右边连续节点的二叉树称为完全二叉树（堆就是一个完全二叉树）。</li> <li>哈夫曼树（最优二叉树）：带权路径最短的二叉树称为哈夫曼树或最优二叉树。</li></ul> <h5 id="实现-4"><a href="#实现-4" class="header-anchor">#</a> 实现</h5> <div class="language- extra-class"><pre class="language-text"><code>// 二叉树的实现
+
+function Node(data) {
+
+    this.data = data;
+
+    this.left = null;
+
+    this.right = null;
+
+}
+
+const nodeA = new Node('A');
+
+const nodeB = new Node('B');
+
+const nodeC = new Node('C');
+
+const nodeD = new Node('D');
+
+const nodeE = new Node('E');
+
+const nodeF = new Node('F');
+
+const nodeG = new Node('G');
+
+
+
+nodeA.left = nodeB;
+
+nodeA.right = nodeC;
+
+nodeB.left = nodeD;
+
+nodeB.right = nodeE;
+
+nodeC.left = nodeF;
+
+nodeC.right = nodeG;
+</code></pre></div><p>我们日常工作中接触到最多的是多叉树。</p> <h5 id="遍历"><a href="#遍历" class="header-anchor">#</a> 遍历</h5> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <ul><li><p>深度优先遍历</p></li> <li><ul><li>先序遍历</li></ul></li></ul> <p>先序遍历（又称先根遍历）为 ABDECFG（根-左-右）。</p> <ul><li>中序遍历</li></ul> <p>中序遍历（又称中根遍历）为 DBEAFCG（左-根-右）（仅二叉树有中序遍历）。</p> <ul><li>后序遍历</li></ul> <p>后序遍历（又称后根遍历）为 DEBFGCA（左-右-根）。</p> <ul><li><p>广度优先遍历</p></li> <li><ul><li>层序遍历</li></ul></li></ul> <p>层序遍历为 ABCDEFG。</p> <h5 id="用途-4"><a href="#用途-4" class="header-anchor">#</a> 用途</h5> <ol><li>树的扁平化（展示 OCR 识别结果）</li> <li>扁平化数组转换成树（标签树）</li></ol> <h3 id="图"><a href="#图" class="header-anchor">#</a> 图</h3> <p>图（Graph）结构是一种非线性的数据结构，图在实际生活中有很多例子，比如交通运输网，地铁网络，等等都可以抽象成图结构。图结构比树结构复杂的非线性结构。</p> <p>图是由若干个顶点和边组成。</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <h5 id="分类-3"><a href="#分类-3" class="header-anchor">#</a> 分类</h5> <ul><li>无向图</li></ul> <p>如果一个图结构中，所有的边都没有方向性，那么这种图便称为无向图。</p> <ul><li>有向图</li></ul> <p>一个图结构中，边是有方向性的，那么这种图就称为有向图。</p> <ul><li>加权图</li></ul> <p>如果给边加上一个值表示权重，这种图就是加权图。</p> <ul><li>连通图</li></ul> <p>如果图中任意两个节点都能找到路径可以将它们进行连接，则称该图为连通图。</p> <h5 id="表示"><a href="#表示" class="header-anchor">#</a> 表示</h5> <p>图有两种表示方法：邻接矩阵、邻接链表。不同的场景及算法可能需要不同的图表示方式，一般情况下当结点数量非常庞大时，会造成矩阵非常稀疏，空间开销会较大，此时使用邻接链表的表示方式会占用较少的空间。而如果是稠密矩阵或者需要快速判断任意两个结点是否有边相连等情况，可能邻接矩阵更合适。</p> <ul><li>邻接矩阵</li></ul> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <ul><li>邻接链表</li></ul> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <h5 id="遍历-2"><a href="#遍历-2" class="header-anchor">#</a> 遍历</h5> <ul><li>深度优先遍历</li> <li>广度优先遍历</li></ul> <h5 id="用途-5"><a href="#用途-5" class="header-anchor">#</a> 用途</h5> <ul><li>商品分类选择</li></ul> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <h2 id="算法"><a href="#算法" class="header-anchor">#</a> 算法</h2> <h3 id="lru"><a href="#lru" class="header-anchor">#</a> LRU</h3> <p>LRU 是 Least Recently Used 的缩写，即最近最少使用，是一种常用的页面置换算法，将最近最久未使用的页面予以淘汰。</p> <p>核心的思想就是“如果数据最近被访问，那么将来被访问的几率也就更高”。</p> <h5 id="原理-3"><a href="#原理-3" class="header-anchor">#</a> 原理</h5> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <h5 id="实现-5"><a href="#实现-5" class="header-anchor">#</a> 实现</h5> <p>思路分析：</p> <ul><li><p>选择合适的数据结构。</p></li> <li><ul><li>哈希表：O(1) 级别的时间复杂度，适合数据查找。但是元素无序，没办法判断元素访问的先后顺序。</li> <li>数组：元素的插入和删除元素都是 O(n)。</li> <li>单向链表：删除节点需要访问前驱节点，需要花 O(n)从前遍历查找。</li> <li>双向链表：结点有前驱指针，删除和移动节点都是指针的变动，都是 O(1)。</li></ul></li></ul> <p>结论：哈希表 + 双向链表。</p> <p>使用哈希表的目的就是快速访问到存储在双向链表中的数据，存储双向链表的 key 和节点的引用；使用双向链表的目的就是快速进行节点位置的移动和删除，存储 key 和对应的数据。</p> <ul><li><p>设置虚拟节点，方便快速的访问头尾节点。初始时没有添加真实的节点，所以需要将虚拟节点的前驱指针和后继指针指向自己。</p></li> <li><p>get 方法的实现。</p></li> <li><p>put 方法的实现。</p></li> <li><ul><li>写入新数据，需要先检查一下当前节点数量；如果节点数量达到容量的最大值，则需要先删除链表尾部的节点，然后创建新的节点，添加到链表头部，并写入到哈希表。</li> <li>写入已存在的数据，则更新数据值，移动节点位置到链表头部。</li></ul></li></ul> <div class="language- extra-class"><pre class="language-text"><code>function Node(key, value) {
+
+    this.key = key;
+
+    this.value = value;
+
+    this.prev = null;
+
+    this.next = null;
+
+}
+
+
+
+class LRUCache {
+
+    constructor(capacity) {
+
+        this.capacity = capacity; // 容量
+
+        this.hash = {}; // 哈希表
+
+        this.count = 0; // 当前节点数量
+
+        this.virtualNode = new Node(); // 虚拟结点
+
+
+
+        // 相互引用
+
+        this.virtualNode.next = this.virtualNode;
+
+        this.virtualNode.prev = this.virtualNode;
+
+    }
+
+    get(key) {
+
+        const node = this.hash[key];
+
+        if (node) {
+
+                this.moveToHead(node);
+
+                return node.value;
+
+        }
+
+    }
+
+    put(key, value) {
+
+        const node = this.hash[key];
+
+        if (node) {
+
+            node.value = value;
+
+            this.moveToHead(node);
+
+        } else {
+
+            if (this.count === this.capacity) {
+
+                this.removeLRUItem();
+
+            }
+
+            const newNode = new Node(key, value);
+
+            this.hash[key] = newNode;
+
+            this.addToHead(newNode);
+
+            this.count++;
+
+        }
+
+    }
+
+    remove(key) {
+
+        const node = this.hash[key];
+
+        if (node) {
+
+            this.removeFromList(node);
+
+            Reflect.deleteProperty(this.hash, key);
+
+            this.count--;
+
+        }
+
+    }
+
+    isEmpty() {
+
+        return this.count === 0;
+
+    }
+
+    moveToHead(node) {
+
+        this.removeFromList(node);
+
+        this.addToHead(node);
+
+    }
+
+    removeFromList(node) {
+
+        const prevNode = node.prev;
+
+        const nextNode = node.next;
+
+        prevNode.next = nextNode;
+
+        nextNode.prev = prevNode;
+
+        node.prev = null;
+
+        node.next = null;
+
+    }
+
+    addToHead(node) {
+
+        const nextNode = this.virtualNode.next;
+
+        this.virtualNode.next = node;
+
+        nextNode.prev = node;
+
+        node.prev = this.virtualNode;
+
+        node.next = nextNode;
+
+    }
+
+    removeLRUItem() {
+
+        const tailNode = this.virtualNode.prev;
+
+        this.remove(tailNode.key);
+
+    }
+
+}
+
+const cache = new LRUCache(5);
+
+console.log(cache.isEmpty());
+
+cache.put('A', 'A');
+
+cache.put('B', 'B');
+
+cache.put('C', 'C');
+
+cache.put('D', 'D');
+
+cache.put('E', 'E');
+
+console.log(cache.get('A'));
+
+cache.put('F', 'F');
+
+console.log(cache.get('B'));
+
+console.log(cache.isEmpty());
+
+cache.remove('E');
+
+cache.remove('F');
+
+cache.remove('A');
+
+cache.remove('C');
+
+cache.remove('D');
+
+console.log(cache.isEmpty());
+
+console.log(cache);
+</code></pre></div><h5 id="用途-6"><a href="#用途-6" class="header-anchor">#</a> 用途</h5> <ul><li>历史浏览记录。</li> <li>缓存淘汰策略。</li></ul></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">8/10/2021, 2:19:21 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/algorithm/" class="prev router-link-active">
+        算法相关
+      </a></span> <span class="next"><a href="/algorithm/动态规划.html">
+        前端也能学算法：由浅入深讲解动态规划
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.4e7306f2.js" defer></script><script src="/assets/js/2.089a9349.js" defer></script><script src="/assets/js/9.6a8418f6.js" defer></script>
+  </body>
+</html>

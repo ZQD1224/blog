@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>10分钟快速过一遍 Node 进程管理模块 PM2 的核心知识点 | duangdong的blog</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,js,vuepress,leetcode,react,react进阶,css,js进阶,react性能优化,js设计模式">
+    
+    <link rel="preload" href="/assets/css/0.styles.7d57e154.css" as="style"><link rel="preload" href="/assets/js/app.4e7306f2.js" as="script"><link rel="preload" href="/assets/js/2.089a9349.js" as="script"><link rel="preload" href="/assets/js/47.b2a407fe.js" as="script"><link rel="prefetch" href="/assets/js/10.e4129a75.js"><link rel="prefetch" href="/assets/js/11.2979228c.js"><link rel="prefetch" href="/assets/js/12.967032b4.js"><link rel="prefetch" href="/assets/js/13.382c0126.js"><link rel="prefetch" href="/assets/js/14.4462e192.js"><link rel="prefetch" href="/assets/js/15.1a2ad78e.js"><link rel="prefetch" href="/assets/js/16.d8aabfc4.js"><link rel="prefetch" href="/assets/js/17.b1b14ced.js"><link rel="prefetch" href="/assets/js/18.6381bd07.js"><link rel="prefetch" href="/assets/js/19.e1d88862.js"><link rel="prefetch" href="/assets/js/20.9fc12d0b.js"><link rel="prefetch" href="/assets/js/21.32087fe8.js"><link rel="prefetch" href="/assets/js/22.569c0b70.js"><link rel="prefetch" href="/assets/js/23.904cd88f.js"><link rel="prefetch" href="/assets/js/24.2b2f4bb6.js"><link rel="prefetch" href="/assets/js/25.73f4e989.js"><link rel="prefetch" href="/assets/js/26.9f800f35.js"><link rel="prefetch" href="/assets/js/27.d4639879.js"><link rel="prefetch" href="/assets/js/28.0f698c22.js"><link rel="prefetch" href="/assets/js/29.baec863c.js"><link rel="prefetch" href="/assets/js/3.56aa1c74.js"><link rel="prefetch" href="/assets/js/30.9169b2e7.js"><link rel="prefetch" href="/assets/js/31.8f3b396f.js"><link rel="prefetch" href="/assets/js/32.fa69df06.js"><link rel="prefetch" href="/assets/js/33.37897fde.js"><link rel="prefetch" href="/assets/js/34.e4c930ca.js"><link rel="prefetch" href="/assets/js/35.ac93870f.js"><link rel="prefetch" href="/assets/js/36.2673cc72.js"><link rel="prefetch" href="/assets/js/37.60009020.js"><link rel="prefetch" href="/assets/js/38.79171963.js"><link rel="prefetch" href="/assets/js/39.6938b87f.js"><link rel="prefetch" href="/assets/js/4.ef07e727.js"><link rel="prefetch" href="/assets/js/40.8e6ace96.js"><link rel="prefetch" href="/assets/js/41.7deb9d44.js"><link rel="prefetch" href="/assets/js/42.7f205067.js"><link rel="prefetch" href="/assets/js/43.8ebc2622.js"><link rel="prefetch" href="/assets/js/44.499d3895.js"><link rel="prefetch" href="/assets/js/45.137c225a.js"><link rel="prefetch" href="/assets/js/46.999fc668.js"><link rel="prefetch" href="/assets/js/48.f7742dc5.js"><link rel="prefetch" href="/assets/js/49.01a0c908.js"><link rel="prefetch" href="/assets/js/5.852455a1.js"><link rel="prefetch" href="/assets/js/50.a6966cb3.js"><link rel="prefetch" href="/assets/js/51.3db01d61.js"><link rel="prefetch" href="/assets/js/52.5f0256d1.js"><link rel="prefetch" href="/assets/js/53.03ae4d1b.js"><link rel="prefetch" href="/assets/js/54.58f05fcf.js"><link rel="prefetch" href="/assets/js/55.cd5aeb9f.js"><link rel="prefetch" href="/assets/js/56.3cf754d6.js"><link rel="prefetch" href="/assets/js/6.c9125bc1.js"><link rel="prefetch" href="/assets/js/7.6efc051b.js"><link rel="prefetch" href="/assets/js/8.af4d5805.js"><link rel="prefetch" href="/assets/js/9.6a8418f6.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.7d57e154.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/leetcode/" class="nav-link">
+  Leetcode
+</a></div><div class="nav-item"><a href="/algorithm/" class="nav-link">
+  数据结构
+</a></div><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/node/" class="nav-link router-link-active">
+  Node
+</a></div><div class="nav-item"><a href="https://react.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://qa.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  QA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人链接" class="dropdown-title"><span class="title">个人链接</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人链接" class="mobile-dropdown-title"><span class="title">个人链接</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://essay.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  随笔
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="http://qdzhou.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  博客
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://www.yuque.com/xdxmvy" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  语雀
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/ZQD1224/note" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/leetcode/" class="nav-link">
+  Leetcode
+</a></div><div class="nav-item"><a href="/algorithm/" class="nav-link">
+  数据结构
+</a></div><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/node/" class="nav-link router-link-active">
+  Node
+</a></div><div class="nav-item"><a href="https://react.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://qa.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  QA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人链接" class="dropdown-title"><span class="title">个人链接</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人链接" class="mobile-dropdown-title"><span class="title">个人链接</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://essay.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  随笔
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="http://qdzhou.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  博客
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://www.yuque.com/xdxmvy" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  语雀
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/ZQD1224/note" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/node/" aria-current="page" class="sidebar-link">node</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>1-koa</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>2-nginx</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>3-puppeteer</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Bug</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/node/Node 进程管理模块 PM2 的核心知识点.html" class="active sidebar-link">10分钟快速过一遍 Node 进程管理模块 PM2 的核心知识点</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/node/Node 进程管理模块 PM2 的核心知识点.html#_10分钟快速过一遍-node-进程管理模块-pm2-的核心知识点" class="sidebar-link">10分钟快速过一遍 Node 进程管理模块 PM2 的核心知识点</a></li><li class="sidebar-sub-header"><a href="/node/Node 进程管理模块 PM2 的核心知识点.html#pm2-的核心功能概览" class="sidebar-link">PM2 的核心功能概览</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/node/Node 进程管理模块 PM2 的核心知识点.html#项目结构" class="sidebar-link">项目结构</a></li><li class="sidebar-sub-header"><a href="/node/Node 进程管理模块 PM2 的核心知识点.html#守护进程与-client-进程通讯方式" class="sidebar-link">守护进程与 Client 进程通讯方式</a></li><li class="sidebar-sub-header"><a href="/node/Node 进程管理模块 PM2 的核心知识点.html#pm2-启动程序的方式" class="sidebar-link">PM2 启动程序的方式</a></li></ul></li><li class="sidebar-sub-header"><a href="/node/Node 进程管理模块 PM2 的核心知识点.html#多进程管理" class="sidebar-link">多进程管理</a></li><li class="sidebar-sub-header"><a href="/node/Node 进程管理模块 PM2 的核心知识点.html#系统信息监控" class="sidebar-link">系统信息监控</a></li><li class="sidebar-sub-header"><a href="/node/Node 进程管理模块 PM2 的核心知识点.html#日志管理" class="sidebar-link">日志管理</a></li><li class="sidebar-sub-header"><a href="/node/Node 进程管理模块 PM2 的核心知识点.html#后记" class="sidebar-link">后记</a></li></ul></li><li><a href="/node/babel-nodemon.html" class="sidebar-link">babel nodemon</a></li><li><a href="/node/jsencrypt.html" class="sidebar-link">链接</a></li><li><a href="/node/jsonwebtoken.html" class="sidebar-link">jsonwebtoken</a></li><li><a href="/node/nvm.html" class="sidebar-link">Nvm</a></li><li><a href="/node/other.html" class="sidebar-link">babel</a></li><li><a href="/node/passport.html" class="sidebar-link">passport</a></li><li><a href="/node/pm2.html" class="sidebar-link">pm2</a></li><li><a href="/node/浅析 Node 进程与线程.html" class="sidebar-link">浅析 Node 进程与线程</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="_10分钟快速过一遍-node-进程管理模块-pm2-的核心知识点"><a href="#_10分钟快速过一遍-node-进程管理模块-pm2-的核心知识点" class="header-anchor">#</a> 10分钟快速过一遍 Node 进程管理模块 PM2 的核心知识点</h2> <blockquote><p><a href="https://mp.weixin.qq.com/s/_4zMQ0kamHZqigey1EyDUQ" target="_blank" rel="noopener noreferrer">https://mp.weixin.qq.com/s/_4zMQ0kamHZqigey1EyDUQ<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <blockquote><p>转载自：Jiasm</p> <p>https://juejin.im/post/6866081343454773262</p></blockquote> <p>近期有需求需要了解 PM2 一些功能的实现方式，所以趁势看了一下 PM2 的源码，也算是用了这么多年的 PM2，第一次进入内部进行一些探索。
+PM2 是一个 基于 node.js 的进程管理工具，本身 node.js 是一个单进程的语言，但是 PM2 可以实现多进程的运行及管理（当然还是基于 node 的 API），还提供程序系统信息的展示，包括 内存、CPU 等数据。</p> <h2 id="pm2-的核心功能概览"><a href="#pm2-的核心功能概览" class="header-anchor">#</a> PM2 的核心功能概览</h2> <blockquote><p>源码位置：</p> <p>https://github.com/Unitech/pm2)</p> <p>官方网站：</p> <p>https://pm2.keymetrics.io/</p></blockquote> <p>PM2 的功能、插件非常的丰富，但比较核心的功能其实不多：</p> <ol><li>多进程管理</li> <li>系统信息监控</li> <li>日志管理</li></ol> <p>其他的一些功能就都是基于 PM2 之上的辅助功能了。</p> <h3 id="项目结构"><a href="#项目结构" class="header-anchor">#</a> 项目结构</h3> <p>PM2 的项目结构算是比较简洁的了，主要的源码都在 <code>lib</code> 目录下， <code>God</code> 目录为核心功能多进程管理的实现，以及 <code>API</code>目录则是提供了各种能力，包括 日志管理、面板查看系统信息以及各种辅助功能，最后就是 <code>Sysinfo</code> 目录下关于如何采集系统信息的实现了。</p> <div class="language- extra-class"><pre class="language-text"><code># 删除了多个不相干的文件、文件夹
+lib
+├── API     # 日志管理、GUI 等辅助功能
+├── God     # 多进程管理逻辑实现位置
+└── Sysinfo # 系统信息采集
+</code></pre></div><p>几个比较关键的文件作用：</p> <ul><li><p>Daemon.js</p></li> <li><ul><li>守护进程的主要逻辑实现，包括 rpc server，以及各种守护进程的能力</li></ul></li> <li><p>God.js</p></li> <li><ul><li>业务进程的包裹层，负责与守护进程建立连接，以及注入一些操作，我们编写的代码最终是由这里执行的</li></ul></li> <li><p>Client.js</p></li> <li><ul><li>执行 PM2 命令的主要逻辑实现，包括与守护进程建立 rpc 连接，以及各种请求守护进程的操作</li></ul></li> <li><p>API.js</p></li> <li><ul><li>各种功能性的实现，包括启动、关闭项目、展示列表、展示系统信息等操作，会调用 Client 的各种函数</li></ul></li> <li><p>binaries/CLI.js</p></li> <li><ul><li>执行 pm2 命令时候触发的入口文件</li></ul></li></ul> <h3 id="守护进程与-client-进程通讯方式"><a href="#守护进程与-client-进程通讯方式" class="header-anchor">#</a> 守护进程与 Client 进程通讯方式</h3> <p>看源码后会知道，PM2 与 Client 进程（也就是我们 <code>pm2 start XXX</code> 时对应的进程），是通过 RPC 进行通讯的，这样就能保证所有的 Client 进程可以与守护进程进行通讯，上报一些信息，以及从守护进程层面执行一些操作。</p> <h3 id="pm2-启动程序的方式"><a href="#pm2-启动程序的方式" class="header-anchor">#</a> PM2 启动程序的方式</h3> <p>PM2 并不是简单的使用 node XXX 来启动我们的程序，就像前边所提到了守护进程与 Client 进程的通讯方式，Client 进程会将启动业务进程所需要的配置，通过 rpc 传递给守护进程，由守护进程去启动程序。
+这样，在 PM2 start 命令执行完成以后业务进程也在后台运行起来了，然后等到我们后续想再针对业务进程进行一些操作的时候，就可以通过列表查看对应的 pid、name 来进行对应的操作，同样是通过 Client 触发 rpc 请求到守护进程，实现逻辑。</p> <p>当然，我们其实很少会有单独启动守护进程的操作，守护进程的启动其实被写在了 Client 启动的逻辑中，在 Client 启动的时候会检查是否有存活的守护进程，如果没有的话，会尝试启动一个新的守护进程用于后续的使用。
+具体方式就是通过 <code>spawn</code> + <code>detached: true</code> 来实现的，创建一个单独的进程，这样即便是我们的 Client 作为父进程退出了，守护进程依然是可以独立运行在后台的。</p> <p>P.S. 在使用 PM2 的时候应该有时也会看到有些这样的输出，这个其实就是 Client 运行时监测到守护进程还没有启动，主动启动了守护进程：</p> <div class="language- extra-class"><pre class="language-text"><code>&gt; [PM2] Spawning PM2 daemon with pm2_home=/Users/jiashunming/.pm2
+&gt; [PM2] PM2 Successfully daemonized
+</code></pre></div><p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <h2 id="多进程管理"><a href="#多进程管理" class="header-anchor">#</a> 多进程管理</h2> <p>一般使用 PM2 实现多进程管理主要的目的是为了能够让我们的 node 程序可以运行在多核 CPU 上，比如四核机器，我们就希望能够存在四个进程在运行，以便更高效的支持服务。
+在进程管理上，PM2 提供了一个大家经常会用到的参数：<code>exec_mode</code>，它的取值只有两个，<code>cluster</code>和<code>fork</code>，<code>fork</code> 是一个比较常规的模式，相当于就是执行了多次的 <code>node XXX.js</code>。
+但是这样去运行 node 程序就会有一个问题，如果是一个 HTTP 服务的话，很容易就会出现端口冲突的问题：</p> <div class="language- extra-class"><pre class="language-text"><code>const http = require('http')
+
+http.createServer(() =&gt; {}).listen(8000)
+</code></pre></div><p>比如我们有这样的一个 PM2 配置文件，那么执行的时候你就会发现，报错了，提示端口冲突：</p> <div class="language- extra-class"><pre class="language-text"><code>module.exports = {
+  apps: [
+    {
+      // 设置启动实例个数
+      &quot;instances&quot;: 2,
+      // 设置运行模式
+      &quot;exec_mode&quot;: &quot;fork&quot;,
+      // 入口文件
+      &quot;script&quot;: &quot;./test-create-server.js&quot;
+    }
+  ]
+}
+</code></pre></div><p>这是因为在 PM2 的实现中， fork 模式下就是简单的通过 spawn 执行入口文件罢了。</p> <blockquote><p>实现位置：lib/God/ForkMode.js</p></blockquote> <p>而当我们把 <code>exec_mode</code> 改为 <code>cluster</code> 之后，你会发现程序可以正常运行了，并不会出现端口占用的错误。
+这是因为 PM2 使用了 node 官方提供的 cluster 模块来运行程序。</p> <p>cluster 是一个 master-slave 模型的运行方式（<em>最近 ms 这个说法貌似变得不政治正确了。。</em>），首先需要有一个 master 进程来负责创建一些工作进程，或者叫做 worker 吧。
+然后在 worker 进程中执行 createServer 监听对应的端口号即可。</p> <div class="language- extra-class"><pre class="language-text"><code>const http = require('http')
+const cluster = require('cluster')
+
+if (cluster.isMaster) {
+  let limit = 2
+  while (limit--) {
+    cluster.fork()
+  }
+} else {
+  http.createServer((req, res) =&gt; {
+    res.write(String(process.pid))
+    res.end()
+  }).listen(8000)
+}
+</code></pre></div><p>详情可以参考 node.js 中 TCP 模块关于 listen 的实现：lib/net.js
+在内部实现逻辑大致为， master 进程负责监听端口号，并通过 round_robin 算法来进行请求的分发，master 进程与 worker 进程之间会通过基于 EventEmitter 的消息进行通讯。</p> <blockquote><p>具体的逻辑实现都在这里 lib/internal/cluster 因为是 node 的逻辑，并不是 PM2 的逻辑，所以就不太多说了。</p></blockquote> <p>然后回到 PM2 关于 cluster 的实现，其实是设置了 N 多的默认参数，然后添加了一些与进程之间的 ipc 通讯逻辑，在进程启动成功、出现异常等特殊情况时，进行对应的操作。
+因为前边也提到了，PM2 是由守护进程维护管理所有的业务进程的，所以守护进程会维护与所有服务的连接。
+<code>process</code> 对象是继承自 <code>EventEmitter</code> 的，所以我们只是监听了一些特定的事件，包括 <code>uncaughtException</code>、<code>unhandledRejection</code> 等。
+在进程重启的实现方式中，就是由子进程监听到异常事件，向守护进程发送异常日志的信息，然后发送 <code>disconnect</code> 表示进程即将退出，最后触发自身的 <code>exit</code> 函数终止掉进程。
+同时守护进程在接收到消息以后，也会重新创建新的进程，从而完成了进程自动重启的逻辑。</p> <p>实现业务进程的主要逻辑在 lib/ProcessContainer 中，它是我们实际代码执行的载体。</p> <h2 id="系统信息监控"><a href="#系统信息监控" class="header-anchor">#</a> 系统信息监控</h2> <p>系统信息监控这块，在看源码之前以为是用什么 addon 来做的，或者是某些黑科技。
+但是真的循着源码看下去，发现了就是用了 pidusage 这个包来做的- -
+只关心 unix 系统的话，内部实际上就是<code>ps \-p XXX</code>这么一个简单的命令。</p> <p>至于在使用 <code>pm2 monit</code>、<code>pm2 ls \--watch</code> 命令时，实际上就是定时器在循环调用上述的获取系统信息方法了。</p> <blockquote><p>具体实现逻辑：getMonitorData dashboard
+list：</p> <p>https://github.com/Unitech/pm2/blob/master/lib/God/ActionMethods.js#L40</p></blockquote> <p>后边就是如何使用基于终端的 UI 库展现数据的逻辑了。</p> <h2 id="日志管理"><a href="#日志管理" class="header-anchor">#</a> 日志管理</h2> <p>日志在 PM2 中的实现分了两块。
+一个是业务进程的日志、还有一个是 PM2 守护进程自身的日志。</p> <p>守护进程的日志实现方式是通过 hack 了 <code>console</code> 相关 API 实现的，在原有的输出逻辑基础上添加了一个基于 axon 的消息传递，是一个 pub/sub 模型的，主要是用于 Client 获得日志，例如 <code>pm2 attach</code>、<code>pm2 dashboard</code> 等命令。
+业务进程的日志实现方式则是通过覆盖了 <code>process.stdout</code>、<code>process.stderr</code> 对象上的方法（<code>console</code> API 基于它实现），在接收到日志以后会写入文件，同时调用 <code>process.send</code> 将日志进行转发，而守护进程监听对应的数据，也会使用上述守护进程创建的 socket 服务将日志数据进行转发，这样业务进程与守护进程就有了统一的可以获取的位置，通过 Client 就可以建立 socket 连接来实现日志的输出了。</p> <blockquote><p>hack console 的位置：lib/Utility.js hack stdout/stderr write 的位置：lib/Utility.js 创建文件可写流用于子进程写入文件：lib/Utility.js 子进程接收到输出后写入文件并发送消息到守护进程：lib/ProcessContainer.js 守护进程监听子进程消息并转发：lib/God/ClusterMode.js 守护进程将事件通过 socket 广播：lib/Daemon.js Client 读取并展示日志：lib/API/Extra.js</p></blockquote> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p><em>查看日志的流程中有一个小细节，就是业务日志， PM2 会先去读取文件最后的几行进行展示，然后才是依据 socket 服务返回的数据进行刷新终端展示数据。</em></p> <h2 id="后记"><a href="#后记" class="header-anchor">#</a> 后记</h2> <p>PM2 比较核心的也就是这几块了，因为通过 Client 可以与守护进程进行交互，而守护进程与业务进程之间也存在着联系，可以执行一些操作。
+所以我们就可以很方便的对业务进程进行管理，剩下的逻辑基本就是基于这之上的一些辅助功能，以及还有就是 UI 展示上的逻辑处理了。</p> <p>PM2 是一个纯 JavaScript 编写的工具，在第一次看的时候还是会觉得略显复杂，到处绕来绕去的比较晕，我推荐的一个阅读源码的方式是，通过找一些入口文件来下手，可以采用 调试 or 加日志的方式，一步步的来看代码的执行顺序。
+最终就会有一个较为清晰的概念。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">8/10/2021, 2:19:21 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/node/Bug/端口占用.html" class="prev">
+        错误码：events.js:183 throw er; // Unhandled 'error' event
+      </a></span> <span class="next"><a href="/node/babel-nodemon.html">
+        babel nodemon
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.4e7306f2.js" defer></script><script src="/assets/js/2.089a9349.js" defer></script><script src="/assets/js/47.b2a407fe.js" defer></script>
+  </body>
+</html>

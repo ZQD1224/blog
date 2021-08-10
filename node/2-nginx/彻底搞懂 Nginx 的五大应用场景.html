@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>彻底搞懂 Nginx 的五大应用场景 | duangdong的blog</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,js,vuepress,leetcode,react,react进阶,css,js进阶,react性能优化,js设计模式">
+    
+    <link rel="preload" href="/assets/css/0.styles.7d57e154.css" as="style"><link rel="preload" href="/assets/js/app.4e7306f2.js" as="script"><link rel="preload" href="/assets/js/2.089a9349.js" as="script"><link rel="preload" href="/assets/js/43.8ebc2622.js" as="script"><link rel="prefetch" href="/assets/js/10.e4129a75.js"><link rel="prefetch" href="/assets/js/11.2979228c.js"><link rel="prefetch" href="/assets/js/12.967032b4.js"><link rel="prefetch" href="/assets/js/13.382c0126.js"><link rel="prefetch" href="/assets/js/14.4462e192.js"><link rel="prefetch" href="/assets/js/15.1a2ad78e.js"><link rel="prefetch" href="/assets/js/16.d8aabfc4.js"><link rel="prefetch" href="/assets/js/17.b1b14ced.js"><link rel="prefetch" href="/assets/js/18.6381bd07.js"><link rel="prefetch" href="/assets/js/19.e1d88862.js"><link rel="prefetch" href="/assets/js/20.9fc12d0b.js"><link rel="prefetch" href="/assets/js/21.32087fe8.js"><link rel="prefetch" href="/assets/js/22.569c0b70.js"><link rel="prefetch" href="/assets/js/23.904cd88f.js"><link rel="prefetch" href="/assets/js/24.2b2f4bb6.js"><link rel="prefetch" href="/assets/js/25.73f4e989.js"><link rel="prefetch" href="/assets/js/26.9f800f35.js"><link rel="prefetch" href="/assets/js/27.d4639879.js"><link rel="prefetch" href="/assets/js/28.0f698c22.js"><link rel="prefetch" href="/assets/js/29.baec863c.js"><link rel="prefetch" href="/assets/js/3.56aa1c74.js"><link rel="prefetch" href="/assets/js/30.9169b2e7.js"><link rel="prefetch" href="/assets/js/31.8f3b396f.js"><link rel="prefetch" href="/assets/js/32.fa69df06.js"><link rel="prefetch" href="/assets/js/33.37897fde.js"><link rel="prefetch" href="/assets/js/34.e4c930ca.js"><link rel="prefetch" href="/assets/js/35.ac93870f.js"><link rel="prefetch" href="/assets/js/36.2673cc72.js"><link rel="prefetch" href="/assets/js/37.60009020.js"><link rel="prefetch" href="/assets/js/38.79171963.js"><link rel="prefetch" href="/assets/js/39.6938b87f.js"><link rel="prefetch" href="/assets/js/4.ef07e727.js"><link rel="prefetch" href="/assets/js/40.8e6ace96.js"><link rel="prefetch" href="/assets/js/41.7deb9d44.js"><link rel="prefetch" href="/assets/js/42.7f205067.js"><link rel="prefetch" href="/assets/js/44.499d3895.js"><link rel="prefetch" href="/assets/js/45.137c225a.js"><link rel="prefetch" href="/assets/js/46.999fc668.js"><link rel="prefetch" href="/assets/js/47.b2a407fe.js"><link rel="prefetch" href="/assets/js/48.f7742dc5.js"><link rel="prefetch" href="/assets/js/49.01a0c908.js"><link rel="prefetch" href="/assets/js/5.852455a1.js"><link rel="prefetch" href="/assets/js/50.a6966cb3.js"><link rel="prefetch" href="/assets/js/51.3db01d61.js"><link rel="prefetch" href="/assets/js/52.5f0256d1.js"><link rel="prefetch" href="/assets/js/53.03ae4d1b.js"><link rel="prefetch" href="/assets/js/54.58f05fcf.js"><link rel="prefetch" href="/assets/js/55.cd5aeb9f.js"><link rel="prefetch" href="/assets/js/56.3cf754d6.js"><link rel="prefetch" href="/assets/js/6.c9125bc1.js"><link rel="prefetch" href="/assets/js/7.6efc051b.js"><link rel="prefetch" href="/assets/js/8.af4d5805.js"><link rel="prefetch" href="/assets/js/9.6a8418f6.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.7d57e154.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/leetcode/" class="nav-link">
+  Leetcode
+</a></div><div class="nav-item"><a href="/algorithm/" class="nav-link">
+  数据结构
+</a></div><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/node/" class="nav-link router-link-active">
+  Node
+</a></div><div class="nav-item"><a href="https://react.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://qa.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  QA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人链接" class="dropdown-title"><span class="title">个人链接</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人链接" class="mobile-dropdown-title"><span class="title">个人链接</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://essay.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  随笔
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="http://qdzhou.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  博客
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://www.yuque.com/xdxmvy" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  语雀
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/ZQD1224/note" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/leetcode/" class="nav-link">
+  Leetcode
+</a></div><div class="nav-item"><a href="/algorithm/" class="nav-link">
+  数据结构
+</a></div><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/node/" class="nav-link router-link-active">
+  Node
+</a></div><div class="nav-item"><a href="https://react.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://qa.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  QA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人链接" class="dropdown-title"><span class="title">个人链接</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人链接" class="mobile-dropdown-title"><span class="title">个人链接</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://essay.qdzhou.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  随笔
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="http://qdzhou.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  博客
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://www.yuque.com/xdxmvy" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  语雀
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/ZQD1224/note" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/node/" aria-current="page" class="sidebar-link">node</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>1-koa</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>2-nginx</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/node/2-nginx/彻底搞懂 Nginx 的五大应用场景.html" class="active sidebar-link">彻底搞懂 Nginx 的五大应用场景</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/node/2-nginx/彻底搞懂 Nginx 的五大应用场景.html#彻底搞懂-nginx-的五大应用场景" class="sidebar-link">彻底搞懂 Nginx 的五大应用场景</a></li><li class="sidebar-sub-header"><a href="/node/2-nginx/彻底搞懂 Nginx 的五大应用场景.html#一、http服务器" class="sidebar-link">一、HTTP服务器</a></li><li class="sidebar-sub-header"><a href="/node/2-nginx/彻底搞懂 Nginx 的五大应用场景.html#二、静态服务器" class="sidebar-link">二、静态服务器</a></li><li class="sidebar-sub-header"><a href="/node/2-nginx/彻底搞懂 Nginx 的五大应用场景.html#三、反向代理" class="sidebar-link">三、反向代理</a></li><li class="sidebar-sub-header"><a href="/node/2-nginx/彻底搞懂 Nginx 的五大应用场景.html#四、负载均衡" class="sidebar-link">四、负载均衡</a></li><li class="sidebar-sub-header"><a href="/node/2-nginx/彻底搞懂 Nginx 的五大应用场景.html#五、动静分离" class="sidebar-link">五、动静分离</a></li><li class="sidebar-sub-header"><a href="/node/2-nginx/彻底搞懂 Nginx 的五大应用场景.html#六、其他" class="sidebar-link">六、其他</a></li></ul></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>3-puppeteer</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Bug</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/node/Node 进程管理模块 PM2 的核心知识点.html" class="sidebar-link">10分钟快速过一遍 Node 进程管理模块 PM2 的核心知识点</a></li><li><a href="/node/babel-nodemon.html" class="sidebar-link">babel nodemon</a></li><li><a href="/node/jsencrypt.html" class="sidebar-link">链接</a></li><li><a href="/node/jsonwebtoken.html" class="sidebar-link">jsonwebtoken</a></li><li><a href="/node/nvm.html" class="sidebar-link">Nvm</a></li><li><a href="/node/other.html" class="sidebar-link">babel</a></li><li><a href="/node/passport.html" class="sidebar-link">passport</a></li><li><a href="/node/pm2.html" class="sidebar-link">pm2</a></li><li><a href="/node/浅析 Node 进程与线程.html" class="sidebar-link">浅析 Node 进程与线程</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="彻底搞懂-nginx-的五大应用场景"><a href="#彻底搞懂-nginx-的五大应用场景" class="header-anchor">#</a> 彻底搞懂 Nginx 的五大应用场景</h2> <blockquote><p><a href="https://mp.weixin.qq.com/s/074FYr_4Bjd3h4juU4-Iew" target="_blank" rel="noopener noreferrer">https://mp.weixin.qq.com/s/074FYr_4Bjd3h4juU4-Iew<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h2 id="一、http服务器"><a href="#一、http服务器" class="header-anchor">#</a> <strong>一、HTTP服务器</strong></h2> <p>Nginx本身也是一个静态资源的服务器，当只有静态资源的时候，就可以使用Nginx来做服务器，如果一个网站只是静态页面的话，那么就可以通过这种方式来实现部署。</p> <p>1、 首先在文档根目录<code>Docroot(/usr/local/var/www)</code>下创建html目录, 然后在html中放一个test.html;</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbue6FUiaDhfyMF4bBf2z0LyvLwcibrhPEu0QVmfVuIECbcj8oKQOuqUfSAs7Q3dRHUevQMIkUS3DhChg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>2、 配置<code>nginx.conf</code>中的server</p> <div class="language- extra-class"><pre class="language-text"><code>user mengday staff;
+
+http {
+    server {
+        listen       80;
+        server_name  localhost;
+        client_max_body_size 1024M;
+
+        # 默认location
+        location / {
+            root   /usr/local/var/www/html;
+            index  index.html index.htm;
+        }
+    }
+}
+</code></pre></div><p>3、访问测试</p> <ul><li><code>http://localhost/</code> 指向<code>/usr/local/var/www/index.html</code>, index.html是安装nginx自带的html</li> <li><code>http://localhost/test.html</code> 指向<code>/usr/local/var/www/html/test.html</code></li></ul> <blockquote><p>注意：如果访问图片出现403 Forbidden错误，可能是因为nginx.conf 的第一行user配置不对，默认是#user nobody;是注释的，linux下改成user root; macos下改成user 用户名 所在组; 然后重新加载配置文件或者重启，再试一下就可以了， 用户名可以通过who am i 命令来查看。</p></blockquote> <p>4、指令简介</p> <ul><li>server : 用于定义服务，http中可以有多个server块</li> <li>listen : 指定服务器侦听请求的IP地址和端口，如果省略地址，服务器将侦听所有地址，如果省略端口，则使用标准端口</li> <li>server_name : 服务名称，用于配置域名</li> <li>location : 用于配置映射路径uri对应的配置，一个server中可以有多个location, location后面跟一个uri,可以是一个正则表达式, / 表示匹配任意路径, 当客户端访问的路径满足这个uri时就会执行location块里面的代码</li> <li>root : 根路径，当访问<code>http://localhost/test.html</code>，“/test.html”会匹配到”/”uri, 找到root为<code>/usr/local/var/www/html</code>，用户访问的资源物理地址=<code>root + uri = /usr/local/var/www/html + /test.html=/usr/local/var/www/html/test.html</code></li> <li>index : 设置首页，当只访问<code>server_name</code>时后面不跟任何路径是不走root直接走index指令的；如果访问路径中没有指定具体的文件，则返回index设置的资源，如果访问<code>http://localhost/html/</code> 则默认返回index.html</li></ul> <p>5、location uri正则表达式</p> <ul><li><code>.</code> ：匹配除换行符以外的任意字符</li> <li><code>?</code> ：重复0次或1次</li> <li><code>+</code> ：重复1次或更多次</li> <li><code>*</code> ：重复0次或更多次</li> <li><code>\d</code> ：匹配数字</li> <li><code>^</code> ：匹配字符串的开始</li> <li><code>$</code> ：匹配字符串的结束</li> <li><code>{n}</code> ：重复n次</li> <li><code>{n,}</code> ：重复n次或更多次</li> <li><code>[c]</code> ：匹配单个字符c</li> <li><code>[a-z]</code> ：匹配a-z小写字母的任意一个</li> <li><code>(a|b|c)</code> : 属线表示匹配任意一种情况，每种情况使用竖线分隔，一般使用小括号括括住，匹配符合a字符 或是b字符 或是c字符的字符串</li> <li><code>\</code> 反斜杠：用于转义特殊字符</li></ul> <p>小括号()之间匹配的内容，可以在后面通过<code>$1</code>来引用，<code>$2</code>表示的是前面第二个()里的内容。正则里面容易让人困惑的是<code>\</code>转义特殊字符。</p> <h2 id="二、静态服务器"><a href="#二、静态服务器" class="header-anchor">#</a> <strong>二、静态服务器</strong></h2> <p>在公司中经常会遇到静态服务器，通常会提供一个上传的功能，其他应用如果需要静态资源就从该静态服务器中获取。</p> <p>1、在<code>/usr/local/var/www</code> 下分别创建images和img目录，分别在每个目录下放一张<code>test.jpg</code></p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <div class="language- extra-class"><pre class="language-text"><code>http {
+    server {
+        listen       80;
+        server_name  localhost;
+
+
+        set $doc_root /usr/local/var/www;
+
+        # 默认location
+        location / {
+            root   /usr/local/var/www/html;
+            index  index.html index.htm;
+        }
+
+        location ^~ /images/ {
+            root $doc_root;
+       }
+
+       location ~* \.(gif|jpg|jpeg|png|bmp|ico|swf|css|js)$ {
+           root $doc_root/img;
+       }
+    }
+}
+</code></pre></div><p>自定义变量使用set指令，语法 set 变量名值;引用使用变量名值;引用使用变量名; 这里自定义了doc_root变量。</p> <p>静态服务器location的映射一般有两种方式：</p> <ul><li>使用路径，如 /images/ 一般图片都会放在某个图片目录下，</li> <li>使用后缀，如 .jpg、.png 等后缀匹配模式</li></ul> <p>访问<code>http://localhost/test.jpg</code> 会映射到 <code>$doc_root/img</code></p> <p>访问<code>http://localhost/images/test.jpg</code> 当同一个路径满足多个location时，优先匹配优先级高的location，由于<code>^~</code> 的优先级大于 <code>~</code>, 所以会走<code>/images/</code>对应的location</p> <p>常见的location路径映射路径有以下几种：</p> <ul><li><code>=</code>    进行普通字符精确匹配。也就是完全匹配。</li> <li><code>^~</code>     前缀匹配。如果匹配成功，则不再匹配其他location。</li> <li><code>~</code>    表示执行一个正则匹配，区分大小写</li> <li><code>~*</code>     表示执行一个正则匹配，不区分大小写</li> <li><code>/xxx/</code>  常规字符串路径匹配</li> <li><code>/</code>    通用匹配，任何请求都会匹配到</li></ul> <h4 id="location优先级"><a href="#location优先级" class="header-anchor">#</a> location优先级</h4> <p>当一个路径匹配多个location时究竟哪个location能匹配到时有优先级顺序的，而优先级的顺序于location值的表达式类型有关，和在配置文件中的先后顺序无关。相同类型的表达式，字符串长的会优先匹配。推荐：<a href="http://mp.weixin.qq.com/s?__biz=MzI4Njc5NjM1NQ==&amp;mid=2247504489&amp;idx=1&amp;sn=afd92248113146b086652ad7f89c7a7c&amp;chksm=ebd5ed45dca26453c0cf91265d669711a4e2b4ea52f3ff4a00b063a9de46d69fcc599f151210&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">Java面试题大全<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>以下是按优先级排列说明：</p> <ul><li>等号类型（=）的优先级最高。一旦匹配成功，则不再查找其他匹配项，停止搜索。</li> <li><code>^~</code>类型表达式，不属于正则表达式。一旦匹配成功，则不再查找其他匹配项，停止搜索。</li> <li>正则表达式类型（<code>~ ~*</code>）的优先级次之。如果有多个location的正则能匹配的话，则使用正则表达式最长的那个。</li> <li>常规字符串匹配类型。按前缀匹配。</li> <li>/ 通用匹配，如果没有匹配到，就匹配通用的</li></ul> <p>优先级搜索问题：不同类型的location映射决定是否继续向下搜索</p> <ul><li>等号类型、<code>^~</code>类型：一旦匹配上就停止搜索了，不会再匹配其他location了</li> <li>正则表达式类型(<code>~ ~*</code>）,常规字符串匹配类型<code>/xxx/</code> : 匹配到之后，还会继续搜索其他其它location，直到找到优先级最高的，或者找到第一种情况而停止搜索</li></ul> <p>location优先级从高到底：</p> <p>(<code>location =</code>) &gt; (<code>location 完整路径</code>) &gt; (<code>location ^~ 路径</code>) &gt; (<code>location ~,~* 正则顺序</code>) &gt; (<code>location 部分起始路径</code>) &gt; (<code>/</code>)</p> <div class="language- extra-class"><pre class="language-text"><code>location = / {
+    # 精确匹配/，主机名后面不能带任何字符串 /
+    [ configuration A ]
+}
+location / {
+    # 匹配所有以 / 开头的请求。
+    # 但是如果有更长的同类型的表达式，则选择更长的表达式。
+    # 如果有正则表达式可以匹配，则优先匹配正则表达式。
+    [ configuration B ]
+}
+location /documents/ {
+    # 匹配所有以 /documents/ 开头的请求，匹配符合以后，还要继续往下搜索。
+    # 但是如果有更长的同类型的表达式，则选择更长的表达式。
+    # 如果有正则表达式可以匹配，则优先匹配正则表达式。
+    [ configuration C ]
+}
+location ^~ /images/ {
+    # 匹配所有以 /images/ 开头的表达式，如果匹配成功，则停止匹配查找，停止搜索。
+    # 所以，即便有符合的正则表达式location，也不会被使用
+    [ configuration D ]
+}
+
+location ~* \.(gif|jpg|jpeg)$ {
+    # 匹配所有以 gif jpg jpeg结尾的请求。
+    # 但是 以 /images/开头的请求，将使用 Configuration D，D具有更高的优先级
+    [ configuration E ]
+}
+
+location /images/ {
+    # 字符匹配到 /images/，还会继续往下搜索
+    [ configuration F ]
+}
+
+
+location = /test.htm {
+    root   /usr/local/var/www/htm;
+    index  index.htm;
+}
+</code></pre></div><p>注意：location的优先级与location配置的位置无关</p> <h2 id="三、反向代理"><a href="#三、反向代理" class="header-anchor">#</a> <strong>三、反向代理</strong></h2> <p>反向代理应该是Nginx使用最多的功能了，反向代理(Reverse Proxy)方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。</p> <p>简单来说就是真实的服务器不能直接被外部网络访问，所以需要一台代理服务器，而代理服务器能被外部网络访问的同时又跟真实服务器在同一个网络环境，当然也可能是同一台服务器，端口不同而已。</p> <p>反向代理通过<code>proxy_pass</code>指令来实现。</p> <p>启动一个Java Web项目，端口号为8081</p> <div class="language- extra-class"><pre class="language-text"><code>server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        proxy_pass http://localhost:8081;
+        proxy_set_header Host $host:$server_port;
+        # 设置用户ip地址
+         proxy_set_header X-Forwarded-For $remote_addr;
+         # 当请求服务器出错去寻找其他服务器
+         proxy_next_upstream error timeout invalid_header http_500 http_502 http_503; 
+    }
+
+}   
+</code></pre></div><p>当我们访问localhost的时候，就相当于访问 <code>localhost:8081</code>了</p> <h2 id="四、负载均衡"><a href="#四、负载均衡" class="header-anchor">#</a> <strong>四、负载均衡</strong></h2> <p>负载均衡也是Nginx常用的一个功能，负载均衡其意思就是分摊到多个操作单元上进行执行，例如Web服务器、FTP服务器、企业关键应用服务器和其它关键任务服务器等，从而共同完成工作任务。</p> <p>简单而言就是当有2台或以上服务器时，根据规则随机的将请求分发到指定的服务器上处理，负载均衡配置一般都需要同时配置反向代理，通过反向代理跳转到负载均衡。而Nginx目前支持自带3种负载均衡策略，还有2种常用的第三方策略。</p> <p>负载均衡通过upstream指令来实现。推荐：<a href="http://mp.weixin.qq.com/s?__biz=MzI4Njc5NjM1NQ==&amp;mid=2247504489&amp;idx=1&amp;sn=afd92248113146b086652ad7f89c7a7c&amp;chksm=ebd5ed45dca26453c0cf91265d669711a4e2b4ea52f3ff4a00b063a9de46d69fcc599f151210&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">Java面试题大全<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <h4 id="_1-rr-round-robin-轮询-默认"><a href="#_1-rr-round-robin-轮询-默认" class="header-anchor">#</a> 1. RR(round robin :轮询 默认)</h4> <p>每个请求按时间顺序逐一分配到不同的后端服务器，也就是说第一次请求分配到第一台服务器上，第二次请求分配到第二台服务器上，如果只有两台服务器，第三次请求继续分配到第一台上，这样循环轮询下去，也就是服务器接收请求的比例是 1:1， 如果后端服务器down掉，能自动剔除。轮询是默认配置，不需要太多的配置</p> <p>同一个项目分别使用8081和8082端口启动项目</p> <div class="language- extra-class"><pre class="language-text"><code>upstream web_servers {  
+   server localhost:8081;  
+   server localhost:8082;  
+}
+
+server {
+    listen       80;
+    server_name  localhost;
+    #access_log  logs/host.access.log  main;
+
+
+    location / {
+        proxy_pass http://web_servers;
+        # 必须指定Header Host
+        proxy_set_header Host $host:$server_port;
+    }
+ }
+</code></pre></div><p>访问地址仍然可以获得响应 <code>http://localhost/api/user/login?username=zhangsan&amp;password=111111</code> ，这种方式是轮询的</p> <h4 id="_2-权重"><a href="#_2-权重" class="header-anchor">#</a> 2. 权重</h4> <p>指定轮询几率，weight和访问比率成正比, 也就是服务器接收请求的比例就是各自配置的weight的比例，用于后端服务器性能不均的情况,比如服务器性能差点就少接收点请求，服务器性能好点就多处理点请求。</p> <div class="language- extra-class"><pre class="language-text"><code>upstream test {
+    server localhost:8081 weight=1;
+    server localhost:8082 weight=3;
+    server localhost:8083 weight=4 backup;
+}
+</code></pre></div><p>示例是4次请求只有一次被分配到8081上，其他3次分配到8082上。backup是指热备，只有当8081和8082都宕机的情况下才走8083</p> <h4 id="_3-ip-hash"><a href="#_3-ip-hash" class="header-anchor">#</a> 3. ip_hash</h4> <p>上面的2种方式都有一个问题，那就是下一个请求来的时候请求可能分发到另外一个服务器，当我们的程序不是无状态的时候(采用了session保存数据)，这时候就有一个很大的很问题了，比如把登录信息保存到了session中，那么跳转到另外一台服务器的时候就需要重新登录了，所以很多时候我们需要一个客户只访问一个服务器，那么就需要用iphash了，iphash的每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</p> <div class="language- extra-class"><pre class="language-text"><code>upstream test {
+    ip_hash;
+    server localhost:8080;
+    server localhost:8081;
+}
+</code></pre></div><h4 id="_4-fair-第三方"><a href="#_4-fair-第三方" class="header-anchor">#</a> 4. fair(第三方)</h4> <p>按后端服务器的响应时间来分配请求，响应时间短的优先分配。这个配置是为了更快的给用户响应</p> <div class="language- extra-class"><pre class="language-text"><code>upstream backend {
+    fair;
+    server localhost:8080;
+    server localhost:8081;
+}
+</code></pre></div><h4 id="_5-url-hash-第三方"><a href="#_5-url-hash-第三方" class="header-anchor">#</a> 5. url_hash(第三方)</h4> <p>按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。在upstream中加入hash语句，server语句中不能写入weight等其他的参数，<code>hash_method</code>是使用的hash算法</p> <div class="language- extra-class"><pre class="language-text"><code>upstream backend {
+    hash $request_uri;
+    hash_method crc32;
+    server localhost:8080;
+    server localhost:8081;
+}
+</code></pre></div><p>以上5种负载均衡各自适用不同情况下使用，所以可以根据实际情况选择使用哪种策略模式,不过fair和url_hash需要安装第三方模块才能使用。</p> <h2 id="五、动静分离"><a href="#五、动静分离" class="header-anchor">#</a> <strong>五、动静分离</strong></h2> <p>动静分离是让动态网站里的动态网页根据一定规则把不变的资源和经常变的资源区分开来，动静资源做好了拆分以后，我们就可以根据静态资源的特点将其做缓存操作，这就是网站静态化处理的核心思路。</p> <div class="language- extra-class"><pre class="language-text"><code>upstream web_servers {  
+       server localhost:8081;  
+       server localhost:8082;  
+}
+
+server {
+    listen       80;
+    server_name  localhost;
+
+    set $doc_root /usr/local/var/www;
+
+    location ~* \.(gif|jpg|jpeg|png|bmp|ico|swf|css|js)$ {
+       root $doc_root/img;
+    }
+
+    location / {
+        proxy_pass http://web_servers;
+        # 必须指定Header Host
+        proxy_set_header Host $host:$server_port;
+    }
+
+    error_page 500 502 503 504  /50x.html;  
+    location = /50x.html {  
+        root $doc_root;
+    }
+
+ }
+</code></pre></div><h2 id="六、其他"><a href="#六、其他" class="header-anchor">#</a> <strong>六、其他</strong></h2> <h4 id="_1-return指令"><a href="#_1-return指令" class="header-anchor">#</a> 1.return指令</h4> <p>返回http状态码 和 可选的第二个参数可以是重定向的URL</p> <div class="language- extra-class"><pre class="language-text"><code>location /permanently/moved/url {
+    return 301 http://www.example.com/moved/here;
+}
+</code></pre></div><h4 id="_2-rewrite指令"><a href="#_2-rewrite指令" class="header-anchor">#</a> 2. rewrite指令</h4> <p>重写URI请求 rewrite，通过使用rewrite指令在请求处理期间多次修改请求URI，该指令具有一个可选参数和两个必需参数。</p> <p>第一个(必需)参数是请求URI必须匹配的正则表达式。</p> <p>第二个参数是用于替换匹配URI的URI。</p> <p>可选的第三个参数是可以停止进一步重写指令的处理或发送重定向(代码301或302)的标志</p> <div class="language- extra-class"><pre class="language-text"><code>location /users/ {
+    rewrite ^/users/(.*)$ /show?user=$1 break;
+}
+</code></pre></div><h4 id="_3-error-page指令"><a href="#_3-error-page指令" class="header-anchor">#</a> 3. error_page指令</h4> <p>使用error_page指令，您可以配置NGINX返回自定义页面以及错误代码，替换响应中的其他错误代码，或将浏览器重定向到其他URI。在以下示例中，<code>error_page</code>指令指定要返回404页面错误代码的页面(/404.html)。</p> <div class="language- extra-class"><pre class="language-text"><code>error_page 404 /404.html;
+</code></pre></div><h4 id="_4-日志"><a href="#_4-日志" class="header-anchor">#</a> 4. 日志</h4> <p>访问日志：需要开启压缩 gzip on; 否则不生成日志文件，打开<code>log_format</code>、<code>access_log</code>注释</p> <div class="language- extra-class"><pre class="language-text"><code>log_format  main  '$remote_addr - $remote_user [$time_local] &quot;$request&quot; '
+                      '$status $body_bytes_sent &quot;$http_referer&quot; '
+                      '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;';
+
+access_log  /usr/local/etc/nginx/logs/host.access.log  main;
+
+gzip  on;
+</code></pre></div><h4 id="_5-deny-指令"><a href="#_5-deny-指令" class="header-anchor">#</a> 5. deny 指令</h4> <div class="language- extra-class"><pre class="language-text"><code># 禁止访问某个目录
+location ~* \.(txt|doc)${
+    root $doc_root;
+    deny all;
+}   
+</code></pre></div><h4 id="_6-内置变量"><a href="#_6-内置变量" class="header-anchor">#</a> 6. 内置变量</h4> <p>nginx的配置文件中可以使用的内置变量以美元符<code>$</code>开始，也有人叫全局变量。其中，部分预定义的变量的值是可以改变的。另外，关注Java知音公众号，回复“后端面试”，送你一份面试题宝典！</p> <ul><li><code>$args</code> ：<code>#</code>这个变量等于请求行中的参数，同<code>$query_string</code></li> <li><code>$content_length</code> ：请求头中的Content-length字段。</li> <li><code>$content_type</code> ：请求头中的Content-Type字段。</li> <li><code>$document_root</code> ：当前请求在root指令中指定的值。</li> <li><code>$host</code> ：请求主机头字段，否则为服务器名称。</li> <li><code>$http_user_agent</code> ：客户端agent信息</li> <li><code>$http_cookie</code> ：客户端cookie信息</li> <li><code>$limit_rate</code> ：这个变量可以限制连接速率。</li> <li><code>$request_method</code> ：客户端请求的动作，通常为GET或POST。</li> <li><code>$remote_addr</code> ：客户端的IP地址。</li> <li><code>$remote_port</code> ：客户端的端口。</li> <li><code>$remote_user</code> ：已经经过Auth Basic Module验证的用户名。</li> <li><code>$request_filename</code> ：当前请求的文件路径，由root或alias指令与URI请求生成。</li> <li><code>$scheme</code> ：HTTP方法（如http，https）。</li> <li><code>$server_protocol</code> ：请求使用的协议，通常是HTTP/1.0或HTTP/1.1。</li> <li><code>$server_addr</code> ：服务器地址，在完成一次系统调用后可以确定这个值。</li> <li><code>$server_name</code> ：服务器名称。</li> <li><code>$server_port</code> ：请求到达服务器的端口号。</li> <li><code>$request_uri</code> ：包含请求参数的原始URI，不包含主机名，如：”<code>/foo/bar.php?arg=baz</code>”。</li> <li><code>$uri</code> ：不带请求参数的当前URI，<code>$uri</code>不包含主机名，如”<code>/foo/bar.html</code>”。</li> <li><code>$document_uri</code> ：与<code>$uri</code>相同</li></ul></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">8/10/2021, 2:19:21 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/node/1-koa/搞懂koa2原理.html" class="prev">
+        一文搞懂 koa2 核心原理
+      </a></span> <span class="next"><a href="/node/3-puppeteer/自动化 Web 性能分析之 Puppeteer 爬虫实践.html">
+        自动化 Web 性能分析之 Puppeteer 爬虫实践
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.4e7306f2.js" defer></script><script src="/assets/js/2.089a9349.js" defer></script><script src="/assets/js/43.8ebc2622.js" defer></script>
+  </body>
+</html>
